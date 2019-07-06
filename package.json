@@ -18,7 +18,8 @@
         "morgan": "^1.9.1"
     },
     "scripts": {
-        "dev": "nodemon index --exec babel-node --"
+        "dev": "nodemon index --exec babel-node --",
+        "production": "NODE_ENV=production babel-node index"
     },
     "devDependencies": {
         "babel-plugin-module-resolver": "^3.2.0",
