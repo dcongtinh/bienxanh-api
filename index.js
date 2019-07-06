@@ -10,7 +10,7 @@ import { authRoute } from 'routes'
 
 const app = express()
 
-const PORT = 4000 || process.env.PORT
+const PORT = process.env.PORT || 4000
 
 // Connect to MongoDB
 mongoose.connect(config.MONGO_URL, {
