@@ -1,0 +1,19 @@
+{
+    "presets": ["es2015"],
+    "plugins": [
+        [
+            "module-resolver",
+            {
+                "root": ["./src"],
+                "alias": {
+                    "routes": "./src/routes",
+                    "controllers": "./src/controllers",
+                    "models": "./src/models",
+                    "constants": "./src/constants",
+                    "utils": "./src/utils",
+                    "middlewares": "./src/middlewares"
+                }
+            }
+        ]
+    ]
+}
