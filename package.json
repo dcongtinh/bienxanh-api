@@ -1,5 +1,5 @@
 {
-    "name": "api-starter",
+    "name": "bienxanh-api",
     "version": "1.0.0",
     "main": "index.js",
     "license": "MIT",
@@ -21,7 +21,7 @@
     "scripts": {
         "dev": "nodemon index --exec babel-node --",
         "production": "NODE_ENV=production babel-node index",
-        "heroku:logs": "heroku logs --tail --app tinhdao-api-starter"
+        "heroku:logs": "heroku logs --tail --app bienxanh-api"
     },
     "devDependencies": {
         "nodemon": "^1.19.1"
