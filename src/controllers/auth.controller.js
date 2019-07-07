@@ -9,10 +9,10 @@ export const login = async (req, res) => {
 
     const user = await User.findOne({ username })
     if (!user) {
-        return res.boom.unauthorized('USER_NOT_FOUND')
+        return res.boom.unauthorized('Tài khoản không tồn tại')
     }
     if (!user.validPassword(password)) {
-        return res.boom.unauthorized('INCORRECT_PASSWORD')
+        return res.boom.unauthorized('Sai tên tài khoản hoặc mật khẩu')
     }
     const authToken = jwt.encode({
         userKey: user._id
