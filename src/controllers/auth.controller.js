@@ -24,13 +24,15 @@ export const login = async (req, res) => {
 }
 
 export const register = async (req, res) => {
-    const { username, password, email } = req.body
-    res.json({ username, password, email })
+    const { firstname, lastname, username, password, email } = req.body
+    // res.json({ firstname, lastname, username, password, email })
     const user = await User.findOne({ username })
     if (user) {
-        return res.status(400).json('USER_EXISTS')
+        return res.boom.unauthorized('Tài khoản đã tồn tại!')
     }
     const newUser = new User({
+        firstname,
+        lastname,
         username,
         password,
         email
@@ -38,7 +40,7 @@ export const register = async (req, res) => {
     newUser.password = newUser.generatePassword(password)
     const userSaved = await newUser.save()
     if (!userSaved) {
-        return res.status(400).json('RESGISTER_FAILED')
+        return res.boom.badRequest('Đăng ký thất bại!')
     }
     res.json(userSaved)
 }
