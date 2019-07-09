@@ -45,17 +45,34 @@ export const register = async (req, res) => {
     res.json(userSaved)
 }
 
+export const getUser = async (req, res) => {
+    const { username } = req.body
+    const user = await User.findOne({ username })
+    if (user) return res.json({ user })
+    res.boom.badRequest('Không tìm thấy dữ liệu!')
+}
+
 const me = (req, res) => {
     res.json(req.user)
 }
 
-const updateProfile = (req, res) => {
-    res.json(req.user)
+export const updateProfile = async (req, res) => {
+    let { username, firstname, lastname } = req.body
+    const user = await User.findOne({ username })
+    if (!user) res.boom.badRequest('Không tìm thấy dữ liệu!')
+    user.firstname = firstname
+    user.lastname = lastname
+    const userSaved = await new User(user).save()
+    if (!userSaved) {
+        return res.boom.badRequest('Cập nhật thất bại!')
+    }
+    res.json(userSaved)
 }
 
 export default {
     login,
     register,
     me,
+    getUser,
     updateProfile
 }

@@ -25,6 +25,7 @@ router.post(
     }),
     authController.register
 )
+router.post('/get-user', authController.getUser)
 router.post(
     '/update',
     authMiddleware.isAuthenticated,
