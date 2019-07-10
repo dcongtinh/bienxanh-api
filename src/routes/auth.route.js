@@ -27,9 +27,19 @@ router.post(
 )
 router.post('/get-user', authController.getUser)
 router.post(
+    '/get-users',
+    authMiddleware.isAuthenticated,
+    authController.getAllUser
+)
+router.post(
     '/update',
     authMiddleware.isAuthenticated,
     authController.updateProfile
+)
+router.post(
+    '/delete',
+    authMiddleware.isAuthenticated,
+    authController.deleteUsers
 )
 router.get('/me', authMiddleware.isAuthenticated, authController.me)
 

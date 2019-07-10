@@ -56,23 +56,35 @@ const me = (req, res) => {
     res.json(req.user)
 }
 
-export const updateProfile = async (req, res) => {
-    let { username, firstname, lastname } = req.body
-    const user = await User.findOne({ username })
-    if (!user) res.boom.badRequest('Không tìm thấy dữ liệu!')
-    user.firstname = firstname
-    user.lastname = lastname
-    const userSaved = await new User(user).save()
-    if (!userSaved) {
-        return res.boom.badRequest('Cập nhật thất bại!')
-    }
-    res.json(userSaved)
+export const getAllUser = async (req, res) => {
+    const users = await User.find()
+    if (users) return res.json({ users })
+    res.boom.badRequest('Không tìm thấy dữ liệu!')
 }
 
+export const updateProfile = async (req, res) => {
+    let { username, firstname, lastname } = req.body
+    const user = await User.update(
+        { username },
+        { $set: { firstname, lastname } }
+    )
+    if (!user) res.boom.badRequest('Không tìm thấy dữ liệu!')
+
+    res.json(user)
+}
+
+export const deleteUsers = async (req, res) => {
+    let { usernames } = req.body
+    let users = await User.deleteMany({ username: { $in: usernames } })
+    if (users) res.json({ users })
+    res.boom.badRequest('Xoá thất bại!')
+}
 export default {
     login,
     register,
     me,
     getUser,
-    updateProfile
+    getAllUser,
+    updateProfile,
+    deleteUsers
 }
