@@ -24,7 +24,14 @@ export const login = async (req, res) => {
 }
 
 export const register = async (req, res) => {
-    const { firstname, lastname, username, password, email } = req.body
+    const {
+        firstname,
+        lastname,
+        username,
+        password,
+        email,
+        siteAdmin
+    } = req.body
     // res.json({ firstname, lastname, username, password, email })
     const user = await User.findOne({ username })
     if (user) {
@@ -35,7 +42,8 @@ export const register = async (req, res) => {
         lastname,
         username,
         password,
-        email
+        email,
+        siteAdmin
     })
     newUser.password = newUser.generatePassword(password)
     const userSaved = await newUser.save()
@@ -63,10 +71,10 @@ export const getAllUser = async (req, res) => {
 }
 
 export const updateProfile = async (req, res) => {
-    let { username, firstname, lastname } = req.body
+    let { username, firstname, lastname, siteAdmin } = req.body
     const user = await User.update(
         { username },
-        { $set: { firstname, lastname } }
+        { $set: { firstname, lastname, siteAdmin } }
     )
     if (!user) res.boom.badRequest('Không tìm thấy dữ liệu!')
 

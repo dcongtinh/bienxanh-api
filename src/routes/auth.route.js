@@ -21,7 +21,8 @@ router.post(
         lastname: joi.string().required(),
         username: joi.string().required(),
         password: joi.string().required(),
-        email: joi.string().required()
+        email: joi.string().required(),
+        siteAdmin: joi.required()
     }),
     authController.register
 )
