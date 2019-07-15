@@ -1,7 +1,9 @@
 import authRoute from './auth.route'
+import wareHouseRoute from './wareHouse.route'
 
-export { authRoute }
+export { authRoute, wareHouseRoute }
 
 export default {
-    authRoute
+    authRoute,
+    wareHouseRoute
 }

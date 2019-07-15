@@ -1,7 +1,9 @@
 import User from './user.model'
+import Warehouse from './wareHouse.model'
 
-export { User }
+export { User, Warehouse }
 
 export default {
-    User
+    User,
+    Warehouse
 }

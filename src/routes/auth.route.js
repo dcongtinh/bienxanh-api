@@ -32,7 +32,7 @@ router.post(
     authMiddleware.isAuthenticated,
     authController.getAllUser
 )
-router.post(
+router.put(
     '/update',
     authMiddleware.isAuthenticated,
     authController.updateProfile

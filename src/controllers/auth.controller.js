@@ -74,7 +74,8 @@ export const updateProfile = async (req, res) => {
     let { username, firstname, lastname, siteAdmin } = req.body
     const user = await User.update(
         { username },
-        { $set: { firstname, lastname, siteAdmin } }
+        { $set: { firstname, lastname, siteAdmin } },
+        { new: true }
     )
     if (!user) res.boom.badRequest('Không tìm thấy dữ liệu!')
 

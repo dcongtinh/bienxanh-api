@@ -1,14 +1,17 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 
-const userSchema = mongoose.Schema({
-    firstname: String,
-    lastname: String,
-    username: String,
-    password: String,
-    email: String,
-    siteAdmin: Boolean
-})
+const userSchema = mongoose.Schema(
+    {
+        firstname: String,
+        lastname: String,
+        username: String,
+        password: String,
+        email: String,
+        siteAdmin: Boolean
+    },
+    { timestamps: true }
+)
 
 userSchema.methods.generatePassword = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null)

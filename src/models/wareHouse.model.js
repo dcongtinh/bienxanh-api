@@ -1,0 +1,24 @@
+import mongoose from 'mongoose'
+
+const wareHouseSchema = mongoose.Schema(
+    {
+        warehouse: String,
+        buyerName: String,
+        buyerCode: String,
+        buyerAddress: String,
+        buyerLegalName: String,
+        buyerTaxCode: String
+    },
+    { timestamps: true }
+)
+
+const WarehouseModel = mongoose.model(
+    // model name
+    'Warehouse',
+    // schema
+    wareHouseSchema,
+    // collection name
+    'warehouses'
+)
+
+export default WarehouseModel
