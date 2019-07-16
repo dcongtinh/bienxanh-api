@@ -6,5 +6,6 @@ router.get('/get-warehouses', wareHouseController.getAllWarehouses)
 router.post('/get-warehouse', wareHouseController.getWarehouse)
 router.post('/add', wareHouseController.addWarehouse)
 router.put('/update', wareHouseController.updateWarehouse)
+router.post('/delete', wareHouseController.deleteWareHouses)
 
 export default router

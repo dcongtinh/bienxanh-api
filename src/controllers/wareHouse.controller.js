@@ -21,6 +21,7 @@ export const getAllWarehouses = async (req, res) => {
 export const addWarehouse = async (req, res) => {
     const {
         warehouse,
+        warehouseName,
         buyerCode,
         buyerAddress,
         buyerLegalName,
@@ -29,6 +30,7 @@ export const addWarehouse = async (req, res) => {
     let buyerName = `26296/WH${buyerCode}/`
     const newWarehouse = new Warehouse({
         warehouse,
+        warehouseName,
         buyerName,
         buyerCode,
         buyerAddress,
@@ -46,6 +48,7 @@ export const updateWarehouse = async (req, res) => {
     let {
         idWarehouse,
         warehouse,
+        warehouseName,
         buyerCode,
         buyerAddress,
         buyerLegalName,
@@ -57,6 +60,7 @@ export const updateWarehouse = async (req, res) => {
         {
             $set: {
                 warehouse,
+                warehouseName,
                 buyerName,
                 buyerCode,
                 buyerAddress,
@@ -71,9 +75,19 @@ export const updateWarehouse = async (req, res) => {
     res.json({ wareHouse })
 }
 
+export const deleteWareHouses = async (req, res) => {
+    let { wareHousesListId } = req.body
+    let wareHouses = await Warehouse.deleteMany({
+        _id: { $in: wareHousesListId }
+    })
+    if (wareHouses) res.json({ wareHouses })
+    res.boom.badRequest('Xoá thất bại!')
+}
+
 export default {
     getAllWarehouses,
     getWarehouse,
     addWarehouse,
-    updateWarehouse
+    updateWarehouse,
+    deleteWareHouses
 }
