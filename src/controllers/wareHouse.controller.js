@@ -65,7 +65,8 @@ export const updateWarehouse = async (req, res) => {
                 buyerCode,
                 buyerAddress,
                 buyerLegalName,
-                buyerTaxCode
+                buyerTaxCode,
+                updatedAt: new Date()
             }
         },
         { new: true }

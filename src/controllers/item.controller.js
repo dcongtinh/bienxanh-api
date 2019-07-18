@@ -38,7 +38,8 @@ export const updateItem = async (req, res) => {
         {
             $set: {
                 itemNameCode,
-                itemName
+                itemName,
+                updatedAt: new Date()
             }
         },
         { new: true }
