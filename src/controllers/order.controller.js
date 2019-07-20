@@ -38,7 +38,7 @@ export const getAllOrders = async (req, res) => {
 }
 
 export const addOrder = async (req, res) => {
-    const { warehouse, itemName, batchNo, items, itemNote, owner } = req.body
+    let { warehouse, items, owner } = req.body
     let group = (await Order.find().count()) + 1
     let WareHouse = await wareHouse.findOne({ _id: warehouse })
     if (!WareHouse) return res.boom.badRequest('Lỗi')
@@ -47,10 +47,7 @@ export const addOrder = async (req, res) => {
         group,
         warehouse,
         buyerName: WareHouse.buyerName,
-        itemName,
-        batchNo,
         items,
-        itemNote,
         owner
     })
 
@@ -62,27 +59,13 @@ export const addOrder = async (req, res) => {
 }
 
 export const updateOrder = async (req, res) => {
-    let {
-        idOrder,
-        group,
-        warehouse,
-        itemName,
-        batchNo,
-        items,
-        itemNote,
-        owner
-    } = req.body
+    let { idOrder, warehouse, items } = req.body
     const order = await Order.update(
         { _id: idOrder },
         {
             $set: {
-                group,
                 warehouse,
-                itemName,
-                batchNo,
                 items,
-                itemNote,
-                owner,
                 updatedAt: new Date()
             }
         },
@@ -92,6 +75,15 @@ export const updateOrder = async (req, res) => {
 
     res.json({ order })
 }
+
+// export const deleteItem = async (req, res) => {
+//     let { ordersListId } = req.body
+//     let orders = await Order.delete({
+//         _id: { $in: ordersListId }
+//     })
+//     if (orders) res.json({ orders })
+//     res.boom.badRequest('Xoá thất bại!')
+// }
 
 export const deleteOrders = async (req, res) => {
     let { ordersListId } = req.body
