@@ -24,7 +24,7 @@ export const getAllOrders = async (req, res) => {
     let orders = await Order.find()
         .populate('warehouse')
         .populate({
-            path: 'itemName',
+            path: 'items.itemName',
             select: 'itemNameCode itemName'
         })
         .populate({
@@ -39,7 +39,8 @@ export const getAllOrders = async (req, res) => {
 
 export const addOrder = async (req, res) => {
     let { warehouse, items, owner } = req.body
-    let group = (await Order.find().count()) + 1
+    let orders = await Order.find()
+    let group = orders.length ? orders[orders.length - 1].group + 1 : 1
     let WareHouse = await wareHouse.findOne({ _id: warehouse })
     if (!WareHouse) return res.boom.badRequest('Lỗi')
 
