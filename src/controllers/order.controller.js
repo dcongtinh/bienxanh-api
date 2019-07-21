@@ -22,6 +22,7 @@ export const getOrder = async (req, res) => {
 
 export const getAllOrders = async (req, res) => {
     let orders = await Order.find()
+        .sort({ createdAt: -1 })
         .populate('warehouse')
         .populate({
             path: 'items.itemName',
@@ -60,12 +61,13 @@ export const addOrder = async (req, res) => {
 }
 
 export const updateOrder = async (req, res) => {
-    let { idOrder, warehouse, items } = req.body
+    let { idOrder, warehouse, buyerName, items } = req.body
     const order = await Order.update(
         { _id: idOrder },
         {
             $set: {
                 warehouse,
+                buyerName,
                 items,
                 updatedAt: new Date()
             }
