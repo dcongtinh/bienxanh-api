@@ -15,6 +15,8 @@ dotenv.config({
     path: getEnvFileName()
 })
 
+console.log('MONGO_URL', process.env.MONGO_URL)
+
 const config = {
     WEB_URL: process.env.WEB_URL,
     MONGO_URL: process.env.MONGO_URL,

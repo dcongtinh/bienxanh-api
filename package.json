@@ -21,8 +21,13 @@
     },
     "scripts": {
         "dev": "nodemon index --exec babel-node --",
-        "production": "NODE_ENV=production babel-node index",
-        "heroku:logs": "heroku logs --tail --app bienxanh-api"
+        "start": "NODE_ENV=production babel-node index",
+        "heroku:logs": "heroku logs --tail --app bienxanh-api",
+        "docker:build": "docker-compose build",
+        "docker:restart": "docker-compose restart api",
+        "docker:up": "docker-compose up -d ; yarn docker:restart",
+        "docker:logs": "docker-compose logs -f --tail=50 api",
+        "docker:after-add-package": "yarn docker:build api; yarn docker:up"
     },
     "devDependencies": {
         "nodemon": "^1.19.1"
