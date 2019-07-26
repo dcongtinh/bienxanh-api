@@ -21,21 +21,44 @@ export const getOrder = async (req, res) => {
 }
 
 export const getAllOrders = async (req, res) => {
-    let orders = await Order.find()
-        .sort({ createdAt: -1 })
-        .populate('warehouse')
-        .populate({
-            path: 'items.itemName',
-            select: 'itemNameCode itemName'
-        })
-        .populate({
-            path: 'owner',
-            select: 'firstname lastname'
-        })
-    if (!orders) {
+    const query = {}
+    const options = {
+        sort: { createdAt: -1 },
+        populate: [
+            'warehouse',
+            {
+                path: 'items.itemName',
+                select: 'itemNameCode itemName'
+            },
+            {
+                path: 'owner',
+                select: 'firstname lastname'
+            }
+        ],
+        limit: parseInt(req.query.itemPerPage || 10),
+        page: parseInt(req.query.page || 1)
+    }
+
+    const orders = await Order.paginate(query, options)
+
+    // let orders = await Order.find()
+    //     .sort({ createdAt: -1 })
+    //     .populate('warehouse')
+    //     .populate({
+    //         path: 'items.itemName',
+    //         select: 'itemNameCode itemName'
+    //     })
+    //     .populate({
+    //         path: 'owner',
+    //         select: 'firstname lastname'
+    //     })
+    if (!orders.total) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
     }
-    res.json({ orders })
+    // if (!orders) {
+    //     return res.boom.badRequest('Không tìm thấy dữ liệu!')
+    // }
+    res.json(orders)
 }
 
 export const addOrder = async (req, res) => {

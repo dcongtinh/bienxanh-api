@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import mongoosePaginate from 'mongoose-paginate'
 
 const orderSchema = mongoose.Schema(
     {
@@ -35,6 +36,8 @@ const orderSchema = mongoose.Schema(
     },
     { timestamps: true }
 )
+
+orderSchema.plugin(mongoosePaginate)
 
 const OrderModel = mongoose.model(
     // model name
