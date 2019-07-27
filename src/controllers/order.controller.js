@@ -84,16 +84,16 @@ export const addOrder = async (req, res) => {
 }
 
 export const updateOrder = async (req, res) => {
-    let { idOrder, warehouse, buyerName, items } = req.body
+    let { idOrder, warehouse, buyerName, items, payStatus } = req.body
+    var object = {}
+    if (warehouse) object = Object.assign({}, object, { warehouse })
+    if (buyerName) object = Object.assign({}, object, { buyerName })
+    if (items) object = Object.assign({}, object, { items })
+    object = Object.assign({}, object, { payStatus, updatedAt: new Date() })
     const order = await Order.update(
         { _id: idOrder },
         {
-            $set: {
-                warehouse,
-                buyerName,
-                items,
-                updatedAt: new Date()
-            }
+            $set: object
         },
         { new: true }
     )

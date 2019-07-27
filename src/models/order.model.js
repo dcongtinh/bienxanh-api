@@ -9,6 +9,10 @@ const orderSchema = mongoose.Schema(
             ref: 'Warehouse'
         },
         buyerName: String,
+        payStatus: {
+            type: Boolean,
+            default: false
+        },
         items: [
             {
                 itemName: {
