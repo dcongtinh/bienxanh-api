@@ -80,7 +80,7 @@ export const getAllOrders = async (req, res) => {
 }
 
 export const addOrder = async (req, res) => {
-    let { warehouse, items, owner } = req.body
+    let { warehouse, items, owner, createdAt } = req.body
     let orders = await Order.find()
     let group = orders.length ? orders[orders.length - 1].group + 1 : 1
     let WareHouse = await wareHouse.findOne({ _id: warehouse })
@@ -91,7 +91,8 @@ export const addOrder = async (req, res) => {
         warehouse,
         buyerName: WareHouse.buyerName,
         items,
-        owner
+        owner,
+        createdAt
     })
 
     const newOrderSaved = await newOrder.save()
