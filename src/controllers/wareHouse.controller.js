@@ -24,6 +24,7 @@ export const addWarehouse = async (req, res) => {
         warehouseName,
         buyerCode,
         buyerAddress,
+        buyerArea,
         buyerLegalName,
         buyerTaxCode
     } = req.body
@@ -34,6 +35,7 @@ export const addWarehouse = async (req, res) => {
         buyerName,
         buyerCode,
         buyerAddress,
+        buyerArea,
         buyerLegalName,
         buyerTaxCode
     })
@@ -51,6 +53,7 @@ export const updateWarehouse = async (req, res) => {
         warehouseName,
         buyerCode,
         buyerAddress,
+        buyerArea,
         buyerLegalName,
         buyerTaxCode
     } = req.body
@@ -64,6 +67,7 @@ export const updateWarehouse = async (req, res) => {
                 buyerName,
                 buyerCode,
                 buyerAddress,
+                buyerArea,
                 buyerLegalName,
                 buyerTaxCode,
                 updatedAt: new Date()

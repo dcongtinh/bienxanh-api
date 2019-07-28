@@ -7,6 +7,7 @@ const wareHouseSchema = mongoose.Schema(
         buyerName: String,
         buyerCode: String,
         buyerAddress: String,
+        buyerArea: String,
         buyerLegalName: String,
         buyerTaxCode: String
     },
