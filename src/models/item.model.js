@@ -7,11 +7,9 @@ const itemSchema = mongoose.Schema(
         itemPrices: [
             {
                 itemPrice: Number,
-                areaPrice: {
-                    0: Boolean,
-                    1: Boolean,
-                    2: Boolean
-                }
+                wareHouses: [[{ label: String, value: String }]],
+                customDateApply: String,
+                dateApply: Date
             }
         ]
     },
