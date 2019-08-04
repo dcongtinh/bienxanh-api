@@ -22,7 +22,8 @@ router.post(
         username: joi.string().required(),
         password: joi.string().required(),
         email: joi.string().required(),
-        siteAdmin: joi.required()
+        siteAdmin: joi.required(),
+        access: joi.array().required()
     }),
     authController.register
 )

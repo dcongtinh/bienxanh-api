@@ -30,8 +30,10 @@ export const register = async (req, res) => {
         username,
         password,
         email,
-        siteAdmin
+        siteAdmin,
+        access
     } = req.body
+    console.log(access)
     // res.json({ firstname, lastname, username, password, email })
     const user = await User.findOne({ username })
     if (user) {
@@ -43,7 +45,8 @@ export const register = async (req, res) => {
         username,
         password,
         email,
-        siteAdmin
+        siteAdmin,
+        access
     })
     newUser.password = newUser.generatePassword(password)
     const userSaved = await newUser.save()
@@ -71,10 +74,18 @@ export const getAllUser = async (req, res) => {
 }
 
 export const updateProfile = async (req, res) => {
-    let { username, firstname, lastname, siteAdmin } = req.body
+    let { username, firstname, lastname, siteAdmin, access } = req.body
     const user = await User.update(
         { username },
-        { $set: { firstname, lastname, siteAdmin, updatedAt: new Date() } },
+        {
+            $set: {
+                firstname,
+                lastname,
+                siteAdmin,
+                access,
+                updatedAt: new Date()
+            }
+        },
         { new: true }
     )
     if (!user) res.boom.badRequest('Không tìm thấy dữ liệu!')
