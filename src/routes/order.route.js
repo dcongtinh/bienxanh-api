@@ -6,6 +6,7 @@ router.get('/get-orders', orderController.getAllOrders)
 router.post('/get-order', orderController.getOrder)
 router.post('/add', orderController.addOrder)
 router.put('/update', orderController.updateOrder)
+router.put('/merge', orderController.mergeOrders)
 router.post('/delete', orderController.deleteOrders)
 
 export default router

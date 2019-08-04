@@ -62,7 +62,7 @@ export const getOrder = async (req, res) => {
 // }
 
 export const getAllOrders = async (req, res) => {
-    let orders = await Order.find()
+    let orders = await Order.find({ enabled: true })
         .sort({ createdAt: -1 })
         .populate('warehouse')
         .populate({
@@ -80,7 +80,7 @@ export const getAllOrders = async (req, res) => {
 }
 
 export const addOrder = async (req, res) => {
-    let { warehouse, items, owner, createdAt } = req.body
+    let { warehouse, items, owner, createdAt, mergeList } = req.body
     let orders = await Order.find()
     let group = orders.length ? orders[orders.length - 1].group + 1 : 1
     let WareHouse = await wareHouse.findOne({ _id: warehouse })
@@ -92,7 +92,8 @@ export const addOrder = async (req, res) => {
         buyerName: WareHouse.buyerName,
         items,
         owner,
-        createdAt
+        createdAt,
+        mergeList
     })
 
     const newOrderSaved = await newOrder.save()
@@ -104,17 +105,6 @@ export const addOrder = async (req, res) => {
 
 export const updateOrder = async (req, res) => {
     let { idOrder, data } = req.body
-    // data : warehouse, buyerName, items, payStatus
-    // const idOrder = req.body.idOrder
-    // const updateData = {
-
-    // }
-    // var object = {}
-    // object ={...object, { warehouse }}
-    // // if (warehouse) object = Object.assign({}, object, { warehouse })
-    // if (buyerName) object = Object.assign({}, object, { buyerName })
-    // if (items) object = Object.assign({}, object, { items })
-    // object = Object.assign({}, object, { payStatus, updatedAt: new Date() })
     data = Object.assign({}, data, { updatedAt: new Date() })
     const order = await Order.update(
         { _id: idOrder },
@@ -128,14 +118,22 @@ export const updateOrder = async (req, res) => {
     res.json({ order })
 }
 
-// export const deleteItem = async (req, res) => {
-//     let { ordersListId } = req.body
-//     let orders = await Order.delete({
-//         _id: { $in: ordersListId }
-//     })
-//     if (orders) res.json({ orders })
-//     res.boom.badRequest('Xoá thất bại!')
-// }
+export const mergeOrders = async (req, res) => {
+    let { ordersListId, enabled } = req.body
+    let orders = await Order.updateMany(
+        {
+            _id: { $in: ordersListId }
+        },
+        {
+            $set: {
+                enabled
+            }
+        },
+        { new: true }
+    )
+    if (orders) res.json({ orders })
+    res.boom.badRequest('Hợp thất bại!')
+}
 
 export const deleteOrders = async (req, res) => {
     let { ordersListId } = req.body
@@ -151,5 +149,6 @@ export default {
     getOrder,
     addOrder,
     updateOrder,
+    mergeOrders,
     deleteOrders
 }

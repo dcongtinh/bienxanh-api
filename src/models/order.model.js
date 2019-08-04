@@ -36,6 +36,14 @@ const orderSchema = mongoose.Schema(
         owner: {
             type: String,
             ref: 'User'
+        },
+        mergeList: {
+            type: [String],
+            default: []
+        },
+        enabled: {
+            type: Boolean,
+            default: true
         }
     },
     { timestamps: true }
