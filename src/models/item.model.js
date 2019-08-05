@@ -2,7 +2,6 @@ import mongoose from 'mongoose'
 
 const itemSchema = mongoose.Schema(
     {
-        itemNameCode: String,
         itemName: String,
         itemPrices: [
             {
