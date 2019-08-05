@@ -62,7 +62,7 @@ export const getOrder = async (req, res) => {
 // }
 
 export const getAllOrders = async (req, res) => {
-    let orders = await Order.find({ enabled: true })
+    let orders = await Order.find()
         .sort({ createdAt: -1 })
         .populate('warehouse')
         .populate({
@@ -80,9 +80,11 @@ export const getAllOrders = async (req, res) => {
 }
 
 export const addOrder = async (req, res) => {
-    let { warehouse, items, owner, createdAt, mergeList } = req.body
-    let orders = await Order.find()
-    let group = orders.length ? orders[orders.length - 1].group + 1 : 1
+    let { group, warehouse, items, owner, createdAt, mergeList } = req.body
+    if (!group) {
+        let orders = await Order.find()
+        group = orders.length ? orders.length + 1 : 1
+    }
     let WareHouse = await wareHouse.findOne({ _id: warehouse })
     if (!WareHouse) return res.boom.badRequest('Lỗi')
 
@@ -101,6 +103,16 @@ export const addOrder = async (req, res) => {
         return res.boom.badRequest('Đăng ký thất bại!')
     }
     res.json(newOrderSaved)
+}
+
+export const addOrders = async (req, res) => {
+    let { arrayOrders } = req.body
+
+    const orders = await Order.insertMany(arrayOrders)
+    if (!orders) {
+        return res.boom.badRequest('Tạo hoá đơn thất bại!')
+    }
+    res.json({ orders })
 }
 
 export const updateOrder = async (req, res) => {
@@ -148,6 +160,7 @@ export default {
     getAllOrders,
     getOrder,
     addOrder,
+    addOrders,
     updateOrder,
     mergeOrders,
     deleteOrders
