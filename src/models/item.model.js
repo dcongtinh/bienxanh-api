@@ -3,14 +3,14 @@ import mongoose from 'mongoose'
 const itemSchema = mongoose.Schema(
     {
         itemName: String,
-        itemPrices: [
-            {
-                itemPrice: Number,
-                wareHouses: [[{ label: String, value: String }]],
-                customDateApply: String,
-                dateApply: Date
-            }
-        ]
+        itemPrices: {
+            type: [{}],
+            default: []
+        },
+        itemTradePrices: {
+            type: [{}],
+            default: []
+        }
     },
     { timestamps: true }
 )

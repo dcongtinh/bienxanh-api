@@ -80,10 +80,18 @@ export const getAllOrders = async (req, res) => {
 }
 
 export const addOrder = async (req, res) => {
-    let { group, warehouse, items, owner, createdAt, mergeList } = req.body
+    let {
+        group,
+        warehouse,
+        createdAt,
+        itemNote,
+        owner,
+        mergeList,
+        orders
+    } = req.body
     if (!group) {
-        let orders = await Order.find()
-        group = orders.length ? orders.length + 1 : 1
+        let _orders = await Order.find()
+        group = _orders.length ? _orders.length + 1 : 1
     }
     let WareHouse = await wareHouse.findOne({ _id: warehouse })
     if (!WareHouse) return res.boom.badRequest('Lỗi')
@@ -92,10 +100,11 @@ export const addOrder = async (req, res) => {
         group,
         warehouse,
         buyerName: WareHouse.buyerName,
-        items,
         owner,
         createdAt,
-        mergeList
+        itemNote,
+        mergeList: mergeList || [],
+        orders: orders || []
     })
 
     const newOrderSaved = await newOrder.save()

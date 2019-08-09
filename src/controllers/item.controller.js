@@ -19,10 +19,9 @@ export const getAllItems = async (req, res) => {
 }
 
 export const addItem = async (req, res) => {
-    const { itemName, itemPrices } = req.body
+    const { itemName } = req.body
     const newItem = new Item({
-        itemName,
-        itemPrices
+        itemName
     })
     const newItemSaved = await newItem.save()
     if (!newItemSaved) {
@@ -32,15 +31,12 @@ export const addItem = async (req, res) => {
 }
 
 export const updateItem = async (req, res) => {
-    let { idItem, itemName, itemPrices } = req.body
+    let { idItem, data } = req.body
+    data = Object.assign({}, data, { updatedAt: new Date() })
     const item = await Item.update(
         { _id: idItem },
         {
-            $set: {
-                itemName,
-                itemPrices,
-                updatedAt: new Date()
-            }
+            $set: data
         },
         { new: true }
     )

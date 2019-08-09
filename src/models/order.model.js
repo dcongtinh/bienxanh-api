@@ -13,22 +13,23 @@ const orderSchema = mongoose.Schema(
             type: Boolean,
             default: false
         },
-        items: [
-            {
-                itemName: {
-                    type: String,
-                    ref: 'Item'
-                },
-                itemNote: String,
-                batchNo: String,
-                itemQuantity: Number,
-                itemPrice: Number,
-                itemUnit: {
-                    type: String,
-                    default: 'KG'
+        orders: {
+            type: [
+                {
+                    itemName: String,
+                    itemPrice: {
+                        type: Number,
+                        default: 0
+                    },
+                    itemQuantity: {
+                        type: Number,
+                        default: 0
+                    }
                 }
-            }
-        ],
+            ],
+            default: []
+        },
+        itemNote: String,
         taxPercentag: {
             type: [Number],
             default: [-2]
