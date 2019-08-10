@@ -45,6 +45,10 @@ const orderSchema = mongoose.Schema(
         enabled: {
             type: Boolean,
             default: true
+        },
+        exported: {
+            type: Boolean,
+            default: false
         }
     },
     { timestamps: true }

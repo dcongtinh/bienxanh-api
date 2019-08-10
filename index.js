@@ -11,7 +11,8 @@ import {
     wareHouseRoute,
     itemRoute,
     orderRoute,
-    supplierRoute
+    supplierRoute,
+    exportRoute
 } from 'routes'
 
 const app = express()
@@ -62,6 +63,7 @@ app.use('/warehouses', wareHouseRoute)
 app.use('/items', itemRoute)
 app.use('/orders', orderRoute)
 app.use('/suppliers', supplierRoute)
+app.use('/exports', exportRoute)
 
 app.get('/', (req, res) => {
     res.json({

@@ -1,4 +1,5 @@
 import Order from 'models/order.model'
+import Export from 'models/export.model'
 import wareHouse from 'models/wareHouse.model'
 
 export const getOrder = async (req, res) => {
@@ -62,7 +63,7 @@ export const getOrder = async (req, res) => {
 // }
 
 export const getAllOrders = async (req, res) => {
-    let orders = await Order.find()
+    let orders = await Order.find({ enabled: true, exported: false })
         .sort({ createdAt: -1 })
         .populate('warehouse')
         .populate({
@@ -156,6 +157,27 @@ export const mergeOrders = async (req, res) => {
     res.boom.badRequest('Hợp thất bại!')
 }
 
+export const exportOrders = async (req, res) => {
+    let { ordersListId } = req.body
+    let orders = await Order.updateMany(
+        {
+            _id: { $in: ordersListId }
+        },
+        {
+            $set: {
+                exported: true
+            }
+        },
+        { new: true }
+    )
+    let exported = new Export({
+        exportedList: ordersListId
+    })
+    let exportedSave = await exported.save()
+    if (!orders || !exportedSave) res.boom.badRequest('Hợp thất bại!')
+    res.json({ orders, exportedSave })
+}
+
 export const deleteOrders = async (req, res) => {
     let { ordersListId } = req.body
     let orders = await Order.deleteMany({
@@ -172,5 +194,6 @@ export default {
     addOrders,
     updateOrder,
     mergeOrders,
+    exportOrders,
     deleteOrders
 }
