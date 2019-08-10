@@ -10,6 +10,10 @@ const itemSchema = mongoose.Schema(
         itemTradePrices: {
             type: [{}],
             default: []
+        },
+        itemSuppliers: {
+            type: [{}],
+            default: []
         }
     },
     { timestamps: true }

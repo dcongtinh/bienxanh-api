@@ -6,7 +6,13 @@ import boom from 'express-boom'
 import config from './src/config'
 
 // Routes
-import { authRoute, wareHouseRoute, itemRoute, orderRoute } from 'routes'
+import {
+    authRoute,
+    wareHouseRoute,
+    itemRoute,
+    orderRoute,
+    supplierRoute
+} from 'routes'
 
 const app = express()
 
@@ -55,6 +61,7 @@ app.use('/auth', authRoute)
 app.use('/warehouses', wareHouseRoute)
 app.use('/items', itemRoute)
 app.use('/orders', orderRoute)
+app.use('/suppliers', supplierRoute)
 
 app.get('/', (req, res) => {
     res.json({
