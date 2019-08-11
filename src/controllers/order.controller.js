@@ -84,7 +84,7 @@ export const addOrder = async (req, res) => {
     let {
         group,
         warehouse,
-        createdAt,
+        date,
         itemNote,
         owner,
         mergeList,
@@ -102,7 +102,7 @@ export const addOrder = async (req, res) => {
         warehouse,
         buyerName: WareHouse.buyerName,
         owner,
-        createdAt,
+        date,
         itemNote,
         mergeList: mergeList || [],
         orders: orders || []
@@ -128,7 +128,8 @@ export const addOrders = async (req, res) => {
 export const updateOrder = async (req, res) => {
     let { idOrder, data } = req.body
     data = Object.assign({}, data, { updatedAt: new Date() })
-    const order = await Order.update(
+
+    const order = await Order.updateOne(
         { _id: idOrder },
         {
             $set: data

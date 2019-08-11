@@ -33,7 +33,6 @@ export const register = async (req, res) => {
         siteAdmin,
         access
     } = req.body
-    console.log(access)
     // res.json({ firstname, lastname, username, password, email })
     const user = await User.findOne({ username })
     if (user) {
