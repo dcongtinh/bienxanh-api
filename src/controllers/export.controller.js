@@ -3,10 +3,11 @@ import Export from 'models/export.model'
 
 export const getAllExports = async (req, res) => {
     let exportedList = await Export.find().populate('exportedList')
-    if (!exportedList) {
+    let exportedListId = await Export.find()
+    if (!exportedList || !exportedListId) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
     }
-    res.json({ exportedList })
+    res.json({ exportedList, exportedListId })
 }
 
 export const getExport = async (req, res) => {
@@ -38,8 +39,22 @@ export const setExport = async (req, res) => {
     res.json({ orders, exported })
 }
 
+export const deleteExports = async (req, res) => {
+    let { exportedList, exportsList } = req.body
+    let orders = await Order.deleteMany({
+        _id: { $in: exportedList }
+    })
+
+    let exported = await Export.deleteMany({
+        _id: { $in: exportsList }
+    })
+    if (!orders || !exported) res.boom.badRequest('Xoá thất bại!')
+    res.json({ exported })
+}
+
 export default {
     getAllExports,
     getExport,
-    setExport
+    setExport,
+    deleteExports
 }
