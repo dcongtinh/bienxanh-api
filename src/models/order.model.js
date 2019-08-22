@@ -17,6 +17,7 @@ const orderSchema = mongoose.Schema(
             type: [
                 {
                     itemName: String,
+                    itemSupplier: String,
                     itemPrice: {
                         type: Number,
                         default: 0
