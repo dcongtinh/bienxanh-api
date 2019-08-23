@@ -84,6 +84,7 @@ export const addOrder = async (req, res) => {
     let {
         group,
         warehouse,
+        buyerName,
         date,
         itemNote,
         owner,
@@ -94,13 +95,13 @@ export const addOrder = async (req, res) => {
         let _orders = await Order.find()
         group = _orders.length ? _orders.length + 1 : 1
     }
-    let WareHouse = await wareHouse.findOne({ _id: warehouse })
-    if (!WareHouse) return res.boom.badRequest('Lỗi')
+    // let WareHouse = await wareHouse.findOne({ _id: warehouse })
+    // if (!WareHouse) return res.boom.badRequest('Lỗi')
 
     const newOrder = new Order({
         group,
         warehouse,
-        buyerName: WareHouse.buyerName,
+        buyerName,
         owner,
         date,
         itemNote,

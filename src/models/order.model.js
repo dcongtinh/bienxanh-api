@@ -17,8 +17,33 @@ const orderSchema = mongoose.Schema(
             type: [
                 {
                     itemName: String,
+                    itemLoss: {
+                        type: Number,
+                        default: 0
+                    },
                     itemSupplier: String,
                     itemPrice: {
+                        type: Number,
+                        default: 0
+                    },
+                    itemFeeShip: {
+                        type: Number,
+                        default: 0
+                    },
+                    itemFeeNorth: {
+                        type: Number,
+                        default: 0
+                    },
+                    itemFeeCentral: {
+                        type: Number,
+                        default: 0
+                    },
+                    itemFeeSouth: {
+                        type: Number,
+                        default: 0
+                    },
+                    itemShipper: String,
+                    itemWeight: {
                         type: Number,
                         default: 0
                     },
