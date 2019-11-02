@@ -83,6 +83,10 @@ const orderSchema = mongoose.Schema(
         date: {
             type: Date,
             default: new Date()
+        },
+        reportExportedAt: {
+            type: Date,
+            default: null
         }
     },
     { timestamps: true }

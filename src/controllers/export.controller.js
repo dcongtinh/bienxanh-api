@@ -21,6 +21,23 @@ export const getExport = async (req, res) => {
     res.json({ exported })
 }
 
+export const exportReport = async (req, res) => {
+    let { exportIdList } = req.body
+    let orders = await Order.updateMany(
+        {
+            _id: { $in: exportIdList }
+        },
+        {
+            $set: {
+                reportExportedAt: new Date()
+            }
+        },
+        { new: true }
+    )
+    if (!orders) res.boom.badRequest('Xuất báo cáo thất bại!')
+    res.json({ orders })
+}
+
 export const setExport = async (req, res) => {
     let { idExported, exportedList } = req.body
     let orders = await Order.updateMany(
@@ -56,5 +73,6 @@ export default {
     getAllExports,
     getExport,
     setExport,
+    exportReport,
     deleteExports
 }
