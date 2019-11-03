@@ -51,6 +51,7 @@ const orderSchema = mongoose.Schema(
                         type: Number,
                         default: 0
                     },
+                    itemTransfer: String,
                     itemQuantity: {
                         type: Number,
                         default: 0
