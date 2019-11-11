@@ -92,8 +92,10 @@ export const addOrder = async (req, res) => {
         orders
     } = req.body
     if (!group) {
-        let _orders = await Order.find()
-        group = _orders.length ? _orders.length + 1 : 1
+        let _order = await Order.find()
+            .sort({ group: -1 })
+            .limit(1)
+        group = _order && _order.length ? _order[0].group + 1 : 1
     }
     // let WareHouse = await wareHouse.findOne({ _id: warehouse })
     // if (!WareHouse) return res.boom.badRequest('Lỗi')
