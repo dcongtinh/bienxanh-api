@@ -1,19 +1,10 @@
 import dotenv from 'dotenv'
 
-const getEnvFileName = () => {
-    switch (process.env.NODE_ENV) {
-        case 'development':
-            return '.env.development'
-        case 'production':
-            return '.env.production'
-        default:
-            return '.env.development'
-    }
-}
+const dev = process.env.NODE_ENV !== 'production'
 
-dotenv.config({
-    path: getEnvFileName()
-})
+if (dev) {
+    dotenv.config()
+}
 
 console.log('MONGO_URL', process.env.MONGO_URL)
 
