@@ -11,11 +11,16 @@ export const getSupplier = async (req, res) => {
 }
 
 export const getAllSuppliers = async (req, res) => {
+    let limit = 10
+    let page = 1
     let suppliers = await Supplier.find()
-    if (!suppliers) {
+        .skip((page - 1) * limit)
+        .limit(limit)
+    let count = await Supplier.count()
+    if (!count) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
     }
-    res.json({ suppliers })
+    res.json({ suppliers, count })
 }
 
 export const addSupplier = async (req, res) => {

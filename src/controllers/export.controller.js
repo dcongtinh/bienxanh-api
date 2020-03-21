@@ -2,12 +2,17 @@ import Order from 'models/order.model'
 import Export from 'models/export.model'
 
 export const getAllExports = async (req, res) => {
-    let exportedList = await Export.find().populate('exportedList')
-    let exportedListId = await Export.find()
-    if (!exportedList || !exportedListId) {
+    let exportedList = await Export.find()
+        .sort({ createdAt: -1 })
+        .populate({
+            path: 'exportedList',
+            select: 'payStatus'
+            // match: { payStatus: true }
+        })
+    if (!exportedList) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
     }
-    res.json({ exportedList, exportedListId })
+    res.json({ exportedList })
 }
 
 export const getExport = async (req, res) => {

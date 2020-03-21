@@ -11,7 +11,7 @@ export const getWarehouse = async (req, res) => {
 }
 
 export const getAllWarehouses = async (req, res) => {
-    let wareHouses = await Warehouse.find()
+    let wareHouses = await Warehouse.find().sort({ priority: 1 })
     if (!wareHouses) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
     }
