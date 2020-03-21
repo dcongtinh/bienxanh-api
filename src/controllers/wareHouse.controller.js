@@ -11,11 +11,17 @@ export const getWarehouse = async (req, res) => {
 }
 
 export const getAllWarehouses = async (req, res) => {
-    let wareHouses = await Warehouse.find().sort({ priority: 1 })
-    if (!wareHouses) {
+    let page = parseInt(req.query.page) || 0
+    let itemPerPage = parseInt(req.query.itemPerPage) || 100
+    let wareHouses = await Warehouse.find()
+        .sort({ priority: 1 })
+        .skip(page * itemPerPage)
+        .limit(itemPerPage)
+    let count = await Warehouse.count()
+    if (!count) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
     }
-    res.json({ wareHouses })
+    res.json({ wareHouses, count })
 }
 
 export const addWarehouse = async (req, res) => {
