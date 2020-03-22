@@ -11,6 +11,15 @@ export const getWarehouse = async (req, res) => {
 }
 
 export const getAllWarehouses = async (req, res) => {
+    let wareHouses = await Warehouse.find().sort({ priority: 1 })
+    let count = await Warehouse.count()
+    if (!count) {
+        return res.boom.badRequest('Không tìm thấy dữ liệu!')
+    }
+    res.json({ wareHouses, count })
+}
+
+export const showAllWarehouses = async (req, res) => {
     if (req.query.filters) console.log(req.query.filters.split(','))
     let page = parseInt(req.query.page) || 0
     let itemPerPage = parseInt(req.query.itemPerPage) || 100
@@ -130,6 +139,7 @@ export const deleteWareHouses = async (req, res) => {
 
 export default {
     getAllWarehouses,
+    showAllWarehouses,
     getWarehouse,
     addWarehouse,
     updateWarehouse,
