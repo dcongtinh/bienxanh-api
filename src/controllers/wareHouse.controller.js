@@ -13,11 +13,27 @@ export const getWarehouse = async (req, res) => {
 export const getAllWarehouses = async (req, res) => {
     let page = parseInt(req.query.page) || 0
     let itemPerPage = parseInt(req.query.itemPerPage) || 100
+    let searchText = req.query.searchText
+    let column = req.query.column !== '' ? parseInt(req.query.column) : ''
+    let order = req.query.order || ''
+    let colAttrs = [
+        'buyerCode',
+        'warehouseName',
+        'buyerName',
+        'buyerLegalName',
+        'buyerTaxCode'
+    ]
+    let colAttr = column !== '' ? colAttrs[column] : 'priority'
+    let orderNumber = order === 'desc' ? -1 : 1
+
+    // { $text: { $search: searchText } },
+    // { htmlContent: false, rawContent: false, textContent: false }
     let wareHouses = await Warehouse.find()
-        .sort({ priority: 1 })
+        .sort({ [colAttr]: orderNumber })
         .skip(page * itemPerPage)
         .limit(itemPerPage)
     let count = await Warehouse.count()
+    // console.log(wareHouses, count)
     if (!count) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
     }
