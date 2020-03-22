@@ -11,6 +11,7 @@ export const getWarehouse = async (req, res) => {
 }
 
 export const getAllWarehouses = async (req, res) => {
+    if (req.query.filters) console.log(req.query.filters.split(','))
     let page = parseInt(req.query.page) || 0
     let itemPerPage = parseInt(req.query.itemPerPage) || 100
     let searchText = req.query.searchText
@@ -26,9 +27,25 @@ export const getAllWarehouses = async (req, res) => {
     let colAttr = column !== '' ? colAttrs[column] : 'priority'
     let orderNumber = order === 'desc' ? -1 : 1
 
-    // { $text: { $search: searchText } },
+    // { $text: { $search: ".*include this text.*", $caseSensitive: false,
+    //                 $diacriticSensitive: false } },
     // { htmlContent: false, rawContent: false, textContent: false }
-    let wareHouses = await Warehouse.find()
+    // function diacriticSensitiveRegex(string = '') {
+    //     return string
+    //         .replace(/a/g, '[a,á,à,ä]')
+    //         .replace(/e/g, '[e,é,ë]')
+    //         .replace(/i/g, '[i,í,ï]')
+    //         .replace(/o/g, '[o,ó,ö,ò]')
+    //         .replace(/u/g, '[u,ü,ú,ù]')
+    //         .replace(/\(/g, '')
+    //         .replace(/\)/g, '')
+    // }
+    // console.log(diacriticSensitiveRegex('AP'))
+    let wareHouses = await Warehouse.find({
+        // buyerTaxCode: {
+        //     $regex: '030'
+        // }
+    })
         .sort({ [colAttr]: orderNumber })
         .skip(page * itemPerPage)
         .limit(itemPerPage)
