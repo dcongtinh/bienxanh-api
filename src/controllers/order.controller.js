@@ -74,10 +74,13 @@ export const getAllOrders = async (req, res) => {
             path: 'owner',
             select: 'firstname lastname'
         })
+    let group = await Order.find()
+        .sort({ group: -1 })
+        .limit(1)
     if (!orders) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
     }
-    res.json(orders)
+    res.json({ orders, group })
 }
 
 export const addOrder = async (req, res) => {
