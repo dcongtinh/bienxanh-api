@@ -2,17 +2,31 @@ import Order from 'models/order.model'
 import Export from 'models/export.model'
 
 export const getAllExports = async (req, res) => {
+    let page = parseInt(req.query.page) || 0
+    let itemPerPage = parseInt(req.query.itemPerPage) || 10
+    let column = req.query.column !== '' ? parseInt(req.query.column) : ''
+    let order = req.query.order || ''
+    let colAttrs = ['createdAt']
+    let colAttr = column !== '' ? colAttrs[column] : 'createdAt'
+    let orderNumber = order === 'asc' ? 1 : -1
+
+    let count = await Export.count()
+    let totalPage = parseInt((count - 1) / itemPerPage) + 1
+    if (page >= totalPage) page = totalPage - 1
     let exportedList = await Export.find()
-        .sort({ createdAt: -1 })
+        .sort({ [colAttr]: orderNumber })
+        .skip(page * itemPerPage)
+        .limit(itemPerPage)
         .populate({
             path: 'exportedList',
             select: 'payStatus'
             // match: { payStatus: true }
         })
-    if (!exportedList) {
+
+    if (!count) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
     }
-    res.json({ exportedList })
+    res.json({ exportedList, count })
 }
 
 export const getExport = async (req, res) => {

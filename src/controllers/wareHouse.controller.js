@@ -50,6 +50,9 @@ export const showAllWarehouses = async (req, res) => {
     //         .replace(/\)/g, '')
     // }
     // console.log(diacriticSensitiveRegex('AP'))
+    let count = await Warehouse.count()
+    let totalPage = parseInt((count - 1) / itemPerPage) + 1
+    if (page >= totalPage) page = totalPage - 1
     let wareHouses = await Warehouse.find({
         // buyerTaxCode: {
         //     $regex: '030'
@@ -58,7 +61,7 @@ export const showAllWarehouses = async (req, res) => {
         .sort({ [colAttr]: orderNumber })
         .skip(page * itemPerPage)
         .limit(itemPerPage)
-    let count = await Warehouse.count()
+
     // console.log(wareHouses, count)
     if (!count) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
