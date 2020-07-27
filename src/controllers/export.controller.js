@@ -10,7 +10,7 @@ export const getAllExports = async (req, res) => {
     let colAttr = column !== '' ? colAttrs[column] : 'createdAt'
     let orderNumber = order === 'asc' ? 1 : -1
 
-    let count = await Export.count()
+    let count = await Export.countDocuments()
     let totalPage = parseInt((count - 1) / itemPerPage) + 1
     if (page >= totalPage) page = totalPage - 1
     let exportedList = await Export.find()

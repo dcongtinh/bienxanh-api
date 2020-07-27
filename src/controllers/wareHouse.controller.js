@@ -12,7 +12,7 @@ export const getWarehouse = async (req, res) => {
 
 export const getAllWarehouses = async (req, res) => {
     let wareHouses = await Warehouse.find().sort({ priority: 1 })
-    let count = await Warehouse.count()
+    let count = await Warehouse.countDocuments()
     if (!count) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
     }
@@ -50,7 +50,7 @@ export const showAllWarehouses = async (req, res) => {
     //         .replace(/\)/g, '')
     // }
     // console.log(diacriticSensitiveRegex('AP'))
-    let count = await Warehouse.count()
+    let count = await Warehouse.countDocuments()
     let totalPage = parseInt((count - 1) / itemPerPage) + 1
     if (page >= totalPage) page = totalPage - 1
     let wareHouses = await Warehouse.find({
