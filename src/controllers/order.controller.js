@@ -8,11 +8,11 @@ export const getOrder = async (req, res) => {
         .populate('warehouse')
         .populate({
             path: 'items.itemName',
-            select: 'itemNameCode itemName'
+            select: 'itemNameCode itemName',
         })
         .populate({
             path: 'owner',
-            select: 'firstname lastname'
+            select: 'firstname lastname',
         })
 
     if (!order) {
@@ -68,15 +68,13 @@ export const getAllOrders = async (req, res) => {
         .populate('warehouse')
         .populate({
             path: 'items.itemName',
-            select: 'itemNameCode itemName'
+            select: 'itemNameCode itemName',
         })
         .populate({
             path: 'owner',
-            select: 'firstname lastname'
+            select: 'firstname lastname',
         })
-    let group = await Order.find()
-        .sort({ group: -1 })
-        .limit(1)
+    let group = await Order.find().sort({ group: -1 }).limit(1)
     if (!orders) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
     }
@@ -92,12 +90,10 @@ export const addOrder = async (req, res) => {
         itemNote,
         owner,
         mergeList,
-        orders
+        orders,
     } = req.body
     if (!group) {
-        let _order = await Order.find()
-            .sort({ group: -1 })
-            .limit(1)
+        let _order = await Order.find().sort({ group: -1 }).limit(1)
         group = _order && _order.length ? _order[0].group + 1 : 1
     }
     // let WareHouse = await wareHouse.findOne({ _id: warehouse })
@@ -111,7 +107,7 @@ export const addOrder = async (req, res) => {
         date,
         itemNote,
         mergeList: mergeList || [],
-        orders: orders || []
+        orders: orders || [],
     })
 
     const newOrderSaved = await newOrder.save()
@@ -138,7 +134,7 @@ export const updateOrder = async (req, res) => {
     const order = await Order.updateOne(
         { _id: idOrder },
         {
-            $set: data
+            $set: data,
         },
         { new: true }
     )
@@ -151,12 +147,12 @@ export const mergeOrders = async (req, res) => {
     let { ordersListId, enabled } = req.body
     let orders = await Order.updateMany(
         {
-            _id: { $in: ordersListId }
+            _id: { $in: ordersListId },
         },
         {
             $set: {
-                enabled
-            }
+                enabled,
+            },
         },
         { new: true }
     )
@@ -168,27 +164,27 @@ export const exportOrders = async (req, res) => {
     let { ordersListId } = req.body
     let orders = await Order.updateMany(
         {
-            _id: { $in: ordersListId }
+            _id: { $in: ordersListId },
         },
         {
             $set: {
-                exported: true
-            }
+                exported: true,
+            },
         },
         { new: true }
     )
     let exported = new Export({
-        exportedList: ordersListId
+        exportedList: ordersListId,
     })
     let exportedSave = await exported.save()
-    if (!orders || !exportedSave) res.boom.badRequest('Hợp thất bại!')
+    if (!orders || !exportedSave) res.boom.badRequest('Xuất hoá đơn thất bại!')
     res.json({ orders, exportedSave })
 }
 
 export const deleteOrders = async (req, res) => {
     let { ordersListId } = req.body
     let orders = await Order.deleteMany({
-        _id: { $in: ordersListId }
+        _id: { $in: ordersListId },
     })
     if (orders) res.json({ orders })
     res.boom.badRequest('Xoá thất bại!')
@@ -202,5 +198,5 @@ export default {
     updateOrder,
     mergeOrders,
     exportOrders,
-    deleteOrders
+    deleteOrders,
 }

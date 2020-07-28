@@ -19,7 +19,7 @@ export const getAllExports = async (req, res) => {
         .limit(itemPerPage)
         .populate({
             path: 'exportedList',
-            select: 'payStatus'
+            select: 'payStatus',
             // match: { payStatus: true }
         })
 
@@ -31,9 +31,10 @@ export const getAllExports = async (req, res) => {
 
 export const getExport = async (req, res) => {
     let { idExported } = req.body
-    let exported = await Export.findOne({ _id: idExported }).populate(
-        'exportedList'
-    )
+    let exported = await Export.findOne({ _id: idExported }).populate({
+        path: 'exportedList',
+        options: { sort: { group: -1 } },
+    })
     if (!exported) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
     }
@@ -44,12 +45,12 @@ export const exportReport = async (req, res) => {
     let { exportIdList } = req.body
     let orders = await Order.updateMany(
         {
-            _id: { $in: exportIdList }
+            _id: { $in: exportIdList },
         },
         {
             $set: {
-                reportExportedAt: new Date()
-            }
+                reportExportedAt: new Date(),
+            },
         },
         { new: true }
     )
@@ -61,12 +62,12 @@ export const setExport = async (req, res) => {
     let { idExported, exportedList } = req.body
     let orders = await Order.updateMany(
         {
-            _id: { $in: exportedList }
+            _id: { $in: exportedList },
         },
         {
             $set: {
-                exported: false
-            }
+                exported: false,
+            },
         },
         { new: true }
     )
@@ -78,11 +79,11 @@ export const setExport = async (req, res) => {
 export const deleteExports = async (req, res) => {
     let { exportedList, exportsList } = req.body
     let orders = await Order.deleteMany({
-        _id: { $in: exportedList }
+        _id: { $in: exportedList },
     })
 
     let exported = await Export.deleteMany({
-        _id: { $in: exportsList }
+        _id: { $in: exportsList },
     })
     if (!orders || !exported) res.boom.badRequest('Xoá thất bại!')
     res.json({ exported })
@@ -93,5 +94,5 @@ export default {
     getExport,
     setExport,
     exportReport,
-    deleteExports
+    deleteExports,
 }
