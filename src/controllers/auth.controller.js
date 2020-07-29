@@ -15,11 +15,11 @@ export const login = async (req, res) => {
         return res.boom.unauthorized('Sai tên tài khoản hoặc mật khẩu')
     }
     const authToken = jwt.encode({
-        userKey: user._id
+        userKey: user._id,
     })
     res.json({
         token: authToken,
-        user
+        user,
     })
 }
 
@@ -31,7 +31,7 @@ export const register = async (req, res) => {
         password,
         email,
         siteAdmin,
-        access
+        access,
     } = req.body
     // res.json({ firstname, lastname, username, password, email })
     const user = await User.findOne({ username })
@@ -45,7 +45,7 @@ export const register = async (req, res) => {
         password,
         email,
         siteAdmin,
-        access
+        access,
     })
     newUser.password = newUser.generatePassword(password)
     const userSaved = await newUser.save()
@@ -67,7 +67,7 @@ const me = (req, res) => {
 }
 
 export const getAllUser = async (req, res) => {
-    const users = await User.find()
+    const users = await User.find({}).sort({ createdAt: -1 })
     if (users) return res.json({ users })
     res.boom.badRequest('Không tìm thấy dữ liệu!')
 }
@@ -82,8 +82,8 @@ export const updateProfile = async (req, res) => {
                 lastname,
                 siteAdmin,
                 access,
-                updatedAt: new Date()
-            }
+                updatedAt: new Date(),
+            },
         },
         { new: true }
     )
@@ -105,5 +105,5 @@ export default {
     getUser,
     getAllUser,
     updateProfile,
-    deleteUsers
+    deleteUsers,
 }
