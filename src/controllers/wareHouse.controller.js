@@ -31,7 +31,7 @@ export const showAllWarehouses = async (req, res) => {
         'warehouseName',
         'buyerName',
         'buyerLegalName',
-        'buyerTaxCode'
+        'buyerTaxCode',
     ]
     let colAttr = column !== '' ? colAttrs[column] : 'priority'
     let orderNumber = order === 'desc' ? -1 : 1
@@ -77,9 +77,10 @@ export const addWarehouse = async (req, res) => {
         buyerAddress,
         buyerArea,
         buyerLegalName,
-        buyerTaxCode
+        buyerTaxCode,
     } = req.body
     let buyerName = `26296/WH${buyerCode}/`
+    let count = await Warehouse.countDocuments()
     const newWarehouse = new Warehouse({
         warehouse,
         warehouseName,
@@ -88,7 +89,8 @@ export const addWarehouse = async (req, res) => {
         buyerAddress,
         buyerArea,
         buyerLegalName,
-        buyerTaxCode
+        buyerTaxCode,
+        priority: count + 1,
     })
     const wareHouseSaved = await newWarehouse.save()
     if (!wareHouseSaved) {
@@ -106,7 +108,7 @@ export const updateWarehouse = async (req, res) => {
         buyerAddress,
         buyerArea,
         buyerLegalName,
-        buyerTaxCode
+        buyerTaxCode,
     } = req.body
     let buyerName = `26296/WH${buyerCode}/`
     const wareHouse = await Warehouse.update(
@@ -121,8 +123,8 @@ export const updateWarehouse = async (req, res) => {
                 buyerArea,
                 buyerLegalName,
                 buyerTaxCode,
-                updatedAt: new Date()
-            }
+                updatedAt: new Date(),
+            },
         },
         { new: true }
     )
@@ -134,7 +136,7 @@ export const updateWarehouse = async (req, res) => {
 export const deleteWareHouses = async (req, res) => {
     let { wareHousesListId } = req.body
     let wareHouses = await Warehouse.deleteMany({
-        _id: { $in: wareHousesListId }
+        _id: { $in: wareHousesListId },
     })
     if (wareHouses) res.json({ wareHouses })
     res.boom.badRequest('Xoá thất bại!')
@@ -146,5 +148,5 @@ export default {
     getWarehouse,
     addWarehouse,
     updateWarehouse,
-    deleteWareHouses
+    deleteWareHouses,
 }

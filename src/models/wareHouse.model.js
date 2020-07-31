@@ -9,7 +9,8 @@ const wareHouseSchema = mongoose.Schema(
         buyerAddress: String,
         buyerArea: Number,
         buyerLegalName: String,
-        buyerTaxCode: String
+        buyerTaxCode: String,
+        priority: Number,
     },
     { timestamps: true }
 )
