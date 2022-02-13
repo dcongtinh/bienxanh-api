@@ -3,6 +3,8 @@ import orderController from 'controllers/order.controller'
 
 const router = express.Router()
 router.get('/get-orders', orderController.getAllOrders)
+router.post('/test-orders', orderController.testOrders)
+
 router.post('/get-order', orderController.getOrder)
 router.post('/add', orderController.addOrder)
 router.post('/add-orders', orderController.addOrders)

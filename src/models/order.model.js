@@ -88,6 +88,10 @@ const orderSchema = mongoose.Schema(
         reportExportedAt: {
             type: Date,
             default: null
+        },
+        updater: {
+            type: String,
+            ref: 'User'
         }
     },
     { timestamps: true }

@@ -14,6 +14,10 @@ export const getOrder = async (req, res) => {
             path: 'owner',
             select: 'firstname lastname',
         })
+        .populate({
+            path: 'updater',
+            select: 'firstname lastname',
+        })
 
     if (!order) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
@@ -74,6 +78,11 @@ export const getAllOrders = async (req, res) => {
             path: 'owner',
             select: 'firstname lastname',
         })
+        .populate({
+            path: 'updater',
+            select: 'firstname lastname',
+        })
+
     let group = await Order.find().sort({ group: -1 }).limit(1)
     if (!orders) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
@@ -190,6 +199,15 @@ export const deleteOrders = async (req, res) => {
     res.boom.badRequest('Xoá thất bại!')
 }
 
+export const testOrders = async (req, res) => {
+    let orders = await Order.updateMany(
+        {},
+        { $set: { updater: '5d469c31ec97e10125367cb4' } }
+    ) // admin: bienxanh@gmail.com
+    if (orders) res.json({ orders })
+    res.boom.badRequest('Hợp thất bại!')
+}
+
 export default {
     getAllOrders,
     getOrder,
@@ -199,4 +217,5 @@ export default {
     mergeOrders,
     exportOrders,
     deleteOrders,
+    testOrders,
 }

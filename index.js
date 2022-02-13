@@ -9,10 +9,11 @@ import config from './src/config'
 import {
     authRoute,
     wareHouseRoute,
+    unitRoute,
     itemRoute,
     orderRoute,
     supplierRoute,
-    exportRoute
+    exportRoute,
 } from 'routes'
 
 const app = express()
@@ -21,7 +22,7 @@ const PORT = process.env.PORT || 4000
 
 // Connect to MongoDB
 mongoose.connect(config.MONGO_URL, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
 })
 mongoose.connection.on('connected', () => {
     console.log('Mongoose is connected')
@@ -29,7 +30,7 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('disconnected', () => {
     console.log('Mongoose is disconnected')
 })
-mongoose.connection.on('error', error => {
+mongoose.connection.on('error', (error) => {
     console.log('Mongoose error', error)
 })
 
@@ -60,6 +61,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/auth', authRoute)
 app.use('/warehouses', wareHouseRoute)
+app.use('/units', unitRoute)
 app.use('/items', itemRoute)
 app.use('/orders', orderRoute)
 app.use('/suppliers', supplierRoute)
@@ -67,7 +69,7 @@ app.use('/exports', exportRoute)
 
 app.get('/', (req, res) => {
     res.json({
-        message: "I'm working!"
+        message: "I'm working!",
     })
 })
 

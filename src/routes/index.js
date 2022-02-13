@@ -1,5 +1,6 @@
 import authRoute from './auth.route'
 import wareHouseRoute from './wareHouse.route'
+import unitRoute from './unit.route'
 import itemRoute from './item.route'
 import orderRoute from './order.route'
 import supplierRoute from './supplier.route'
@@ -8,17 +9,19 @@ import exportRoute from './export.route'
 export {
     authRoute,
     wareHouseRoute,
+    unitRoute,
     itemRoute,
     orderRoute,
     supplierRoute,
-    exportRoute
+    exportRoute,
 }
 
 export default {
     authRoute,
     wareHouseRoute,
+    unitRoute,
     itemRoute,
     orderRoute,
     supplierRoute,
-    exportRoute
+    exportRoute,
 }

@@ -33,6 +33,10 @@ export const getExport = async (req, res) => {
     let { idExported } = req.body
     let exported = await Export.findOne({ _id: idExported }).populate({
         path: 'exportedList',
+        populate: {
+            path: 'updater',
+            select: 'firstname lastname',
+        },
         options: { sort: { group: -1 } },
     })
     if (!exported) {
