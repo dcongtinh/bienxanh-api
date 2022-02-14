@@ -41,11 +41,12 @@ app.use(morgan('dev'))
 app.use(boom())
 // CORS
 app.use((req, res, next) => {
-    if (process.env.NODE_ENV !== 'production') {
-        res.setHeader('Access-Control-Allow-Origin', '*')
-    } else {
-        res.setHeader('Access-Control-Allow-Origin', config.WEB_URL)
-    }
+    // if (process.env.NODE_ENV !== 'production') {
+    //     res.setHeader('Access-Control-Allow-Origin', '*')
+    // } else {
+    //     res.setHeader('Access-Control-Allow-Origin', config.WEB_URL)
+    // }
+    res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader(
         'Access-Control-Allow-Methods',
         'GET, POST, OPTIONS, PUT, PATCH, DELETE'
