@@ -56,7 +56,7 @@ app.use((req, res, next) => {
         'Origin, Accept, X-Requested-With, X-Auth-Token, Content-Type, Authorization,'
     )
     res.setHeader('Access-Control-Allow-Credentials', true)
-    res.setHeader('Content-Type', 'application/json'
+    res.setHeader('Content-Type', 'application/json')
     next()
 })
 
