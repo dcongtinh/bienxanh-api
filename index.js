@@ -52,10 +52,9 @@ app.use((req, res, next) => {
         ' GET, POST, PATCH, PUT, DELETE, OPTIONS'
     )
     res.setHeader(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, X-Auth-Token, Content-Type, Authorization,'
-    )
+        'Access-Control-Allow-Headers', '*')
     res.setHeader('Access-Control-Allow-Credentials', true)
+    res.setHeader('Content-Type', 'application/json'
     next()
 })
 
