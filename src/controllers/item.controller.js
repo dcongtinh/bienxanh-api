@@ -11,7 +11,10 @@ export const getItem = async (req, res) => {
 }
 
 export const getAllItems = async (req, res) => {
-    let items = await Item.find()
+    let items = await Item.find().populate({
+        path: 'itemUnit',
+        select: 'unitName',
+    })
     if (!items) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
     }
@@ -21,7 +24,7 @@ export const getAllItems = async (req, res) => {
 export const addItem = async (req, res) => {
     const { itemName } = req.body
     const newItem = new Item({
-        itemName
+        itemName,
     })
     const newItemSaved = await newItem.save()
     if (!newItemSaved) {
@@ -36,7 +39,7 @@ export const updateItem = async (req, res) => {
     const item = await Item.update(
         { _id: idItem },
         {
-            $set: data
+            $set: data,
         },
         { new: true }
     )
@@ -48,10 +51,19 @@ export const updateItem = async (req, res) => {
 export const deleteItems = async (req, res) => {
     let { itemsListId } = req.body
     let items = await Item.deleteMany({
-        _id: { $in: itemsListId }
+        _id: { $in: itemsListId },
     })
     if (items) res.json({ items })
     res.boom.badRequest('Xoá thất bại!')
+}
+
+export const testItems = async (req, res) => {
+    let items = await Item.updateMany(
+        {},
+        { $set: { itemUnit: '6207d7681cbbe51d6019df83' } }
+    ) // Unit: KG
+    if (items) res.json({ items })
+    res.boom.badRequest('Thất bại!')
 }
 
 export default {
@@ -59,5 +71,6 @@ export default {
     getAllItems,
     getItem,
     updateItem,
-    deleteItems
+    deleteItems,
+    testItems,
 }

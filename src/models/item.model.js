@@ -3,18 +3,22 @@ import mongoose from 'mongoose'
 const itemSchema = mongoose.Schema(
     {
         itemName: String,
+        itemUnit: {
+            type: String,
+            ref: 'Unit',
+        },
         itemPrices: {
             type: [{}],
-            default: []
+            default: [],
         },
         itemTradePrices: {
             type: [{}],
-            default: []
+            default: [],
         },
         itemSuppliers: {
             type: [{}],
-            default: []
-        }
+            default: [],
+        },
     },
     { timestamps: true }
 )

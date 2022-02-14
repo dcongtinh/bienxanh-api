@@ -98,6 +98,7 @@ export const addOrder = async (req, res) => {
         date,
         itemNote,
         owner,
+        updater,
         mergeList,
         orders,
     } = req.body
@@ -113,6 +114,7 @@ export const addOrder = async (req, res) => {
         warehouse,
         buyerName,
         owner,
+        updater,
         date,
         itemNote,
         mergeList: mergeList || [],
@@ -205,7 +207,7 @@ export const testOrders = async (req, res) => {
         { $set: { updater: '5d469c31ec97e10125367cb4' } }
     ) // admin: bienxanh@gmail.com
     if (orders) res.json({ orders })
-    res.boom.badRequest('Hợp thất bại!')
+    res.boom.badRequest('Thất bại!')
 }
 
 export default {
