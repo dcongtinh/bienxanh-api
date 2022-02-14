@@ -2,7 +2,10 @@ import Item from 'models/item.model'
 
 export const getItem = async (req, res) => {
     let { idItem } = req.body
-    let item = await Item.findOne({ _id: idItem })
+    let item = await Item.findOne({ _id: idItem }).populate({
+        path: 'itemUnit',
+        select: 'unitName',
+    })
 
     if (!item) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
@@ -22,9 +25,10 @@ export const getAllItems = async (req, res) => {
 }
 
 export const addItem = async (req, res) => {
-    const { itemName } = req.body
+    const { itemName, itemUnit } = req.body
     const newItem = new Item({
         itemName,
+        itemUnit,
     })
     const newItemSaved = await newItem.save()
     if (!newItemSaved) {

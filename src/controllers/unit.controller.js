@@ -2,20 +2,20 @@ import Unit from 'models/unit.model'
 
 export const getUnit = async (req, res) => {
     let { idUnit } = req.body
-    let item = await Unit.findOne({ _id: idUnit })
+    let unit = await Unit.findOne({ _id: idUnit })
 
-    if (!item) {
+    if (!unit) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
     }
-    res.json({ item })
+    res.json({ unit })
 }
 
 export const getAllUnits = async (req, res) => {
-    let items = await Unit.find()
-    if (!items) {
+    let units = await Unit.find()
+    if (!units) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
     }
-    res.json({ items })
+    res.json({ units })
 }
 
 export const addUnit = async (req, res) => {
@@ -33,24 +33,24 @@ export const addUnit = async (req, res) => {
 export const updateUnit = async (req, res) => {
     let { idUnit, data } = req.body
     data = Object.assign({}, data, { updatedAt: new Date() })
-    const item = await Unit.update(
+    const unit = await Unit.update(
         { _id: idUnit },
         {
             $set: data,
         },
         { new: true }
     )
-    if (!item) res.boom.badRequest('Không tìm thấy dữ liệu!')
+    if (!unit) res.boom.badRequest('Không tìm thấy dữ liệu!')
 
-    res.json({ item })
+    res.json({ unit })
 }
 
 export const deleteUnits = async (req, res) => {
-    let { itemsListId } = req.body
-    let items = await Unit.deleteMany({
-        _id: { $in: itemsListId },
+    let { unitsListId } = req.body
+    let units = await Unit.deleteMany({
+        _id: { $in: unitsListId },
     })
-    if (items) res.json({ items })
+    if (units) res.json({ units })
     res.boom.badRequest('Xoá thất bại!')
 }
 
