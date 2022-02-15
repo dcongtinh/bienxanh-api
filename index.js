@@ -43,12 +43,12 @@ app.use(morgan('dev'))
 app.use(boom())
 // CORS
 app.use((req, res, next) => {
-    if (process.env.NODE_ENV !== 'production') {
-        res.setHeader('Access-Control-Allow-Origin', '*')
-    } else {
-        res.setHeader('Access-Control-Allow-Origin', config.WEB_URL)
-    }
-    // res.setHeader('Access-Control-Allow-Origin', '*')
+    // if (process.env.NODE_ENV !== 'production') {
+    //     res.setHeader('Access-Control-Allow-Origin', '*')
+    // } else {
+    //     res.setHeader('Access-Control-Allow-Origin', config.WEB_URL)
+    // }
+    res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader(
         'Access-Control-Allow-Methods',
         'GET, POST, OPTIONS, PUT, PATCH, DELETE'
@@ -82,13 +82,13 @@ app.use((req, res, next) => {
 // app.options('*', cors())
 
 // Routes
-app.use('/auth', authRoute)
-app.use('/warehouses', wareHouseRoute)
-app.use('/units', unitRoute)
-app.use('/items', itemRoute)
-app.use('/orders', orderRoute)
-app.use('/suppliers', supplierRoute)
-app.use('/exports', exportRoute)
+app.use('auth', authRoute)
+app.use('warehouses', wareHouseRoute)
+app.use('units', unitRoute)
+app.use('items', itemRoute)
+app.use('orders', orderRoute)
+app.use('suppliers', supplierRoute)
+app.use('exports', exportRoute)
 
 app.get('/', (req, res) => {
     res.json({
