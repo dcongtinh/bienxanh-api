@@ -69,7 +69,13 @@ app.use(boom())
 // //     next()
 // // })
 
-app.use(cors({ origin: '*' }))
+var corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.use(cors(corsOptions))
+app.options('*', cors())
 // Routes
 app.use('/auth', authRoute)
 app.use('/warehouses', wareHouseRoute)
