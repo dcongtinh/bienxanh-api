@@ -40,20 +40,31 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(morgan('dev'))
 app.use(boom())
 // CORS
-app.use((req, res, next) => {
-    // if (process.env.NODE_ENV !== 'production') {
-    //     res.setHeader('Access-Control-Allow-Origin', '*')
-    // } else {
-    //     res.setHeader('Access-Control-Allow-Origin', config.WEB_URL)
-    // }
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader(
-        'Access-Control-Allow-Methods',
-        ' GET, POST, PATCH, PUT, DELETE, OPTIONS'
+// app.use((req, res, next) => {
+//     // if (process.env.NODE_ENV !== 'production') {
+//     //     res.setHeader('Access-Control-Allow-Origin', '*')
+//     // } else {
+//     //     res.setHeader('Access-Control-Allow-Origin', config.WEB_URL)
+//     // }
+//     res.setHeader('Access-Control-Allow-Origin', '*')
+//     res.setHeader(
+//         'Access-Control-Allow-Methods',
+//         ' GET, POST, PATCH, PUT, DELETE, OPTIONS'
+//     )
+//     res.setHeader('Access-Control-Allow-Headers', '*')
+//     Origin, X-Requested-With, Content-Type, Accept
+
+//     res.setHeader('Access-Control-Allow-Credentials', true)
+//     res.setHeader('Content-Type', 'application/json')
+//     next()
+// })
+
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept'
     )
-    res.setHeader('Access-Control-Allow-Headers', '*')
-    res.setHeader('Access-Control-Allow-Credentials', true)
-    res.setHeader('Content-Type', 'application/json')
     next()
 })
 
