@@ -18,8 +18,6 @@ import {
 } from 'routes'
 
 const app = express()
-app.set('trust proxy', 1)
-// app.use(cors())
 
 const PORT = process.env.PORT || 4000
 
@@ -42,6 +40,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(morgan('dev'))
 app.use(boom())
+
 // CORS
 app.use((req, res, next) => {
     // if (process.env.NODE_ENV !== 'production') {
@@ -59,28 +58,8 @@ app.use((req, res, next) => {
         'Origin, X-Requested-With, Content-Type, Authorization, Accept'
     )
     res.setHeader('Access-Control-Allow-Credentials', true)
-    // res.setHeader('Content-Type', 'application/x-www-form-urlencoded')
     next()
 })
-
-// // app.use(function (req, res, next) {
-// //     res.header('Access-Control-Allow-Origin', '*')
-// //     res.header(
-// //         'Access-Control-Allow-Headers',
-// //         'Origin, X-Requested-With, Content-Type, Accept'
-// //     )
-// //     next()
-// // })
-
-// var corsOptions = {
-//     origin: '*',
-//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//     preflightContinue: true,
-//     optionsSuccessStatus: 204,
-// }
-
-// app.use(cors(corsOptions))
-// app.options('*', cors())
 
 // Routes
 app.use('/auth', authRoute)
