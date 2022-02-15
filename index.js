@@ -58,6 +58,8 @@ app.use((req, res, next) => {
         'Origin, X-Requested-With, Content-Type, Authorization, Accept'
     )
     res.setHeader('Access-Control-Allow-Credentials', true)
+    res.setHeader('Content-Type', 'application/*')
+    res.setHeader('Content-Type', 'text/*')
     next()
 })
 
