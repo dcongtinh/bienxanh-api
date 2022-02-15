@@ -18,6 +18,7 @@ import {
 } from 'routes'
 
 const app = express()
+app.use(cors())
 
 const PORT = process.env.PORT || 4000
 
@@ -69,15 +70,16 @@ app.use(boom())
 // //     next()
 // // })
 
-var corsOptions = {
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: true,
-    optionsSuccessStatus: 204,
-}
+// var corsOptions = {
+//     origin: '*',
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     preflightContinue: true,
+//     optionsSuccessStatus: 204,
+// }
 
-app.use(cors(corsOptions))
-app.options('*', cors())
+// app.use(cors(corsOptions))
+// app.options('*', cors())
+
 // Routes
 app.use('/auth', authRoute)
 app.use('/warehouses', wareHouseRoute)
