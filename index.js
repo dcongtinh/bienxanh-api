@@ -69,7 +69,7 @@ app.use(boom())
 // //     next()
 // // })
 
-app.use(cors({ origin: true }))
+app.use(cors({ origin: '*' }))
 // Routes
 app.use('/auth', authRoute)
 app.use('/warehouses', wareHouseRoute)
