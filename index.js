@@ -41,7 +41,25 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(morgan('dev'))
 app.use(boom())
 // CORS
-
+app.use((req, res, next) => {
+    // if (process.env.NODE_ENV !== 'production') {
+    //     res.setHeader('Access-Control-Allow-Origin', '*')
+    // } else {
+    //     res.setHeader('Access-Control-Allow-Origin', config.WEB_URL)
+    // }
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader(
+        'Access-Control-Allow-Methods',
+        'GET, POST, OPTIONS, PUT, PATCH, DELETE'
+    )
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Authorization'
+    )
+    res.setHeader('Access-Control-Allow-Credentials', true)
+    res.setHeader('Content-Type', 'application/x-www-form-urlencoded')
+    next()
+})
 // // app.use(function (req, res, next) {
 // //     res.header('Access-Control-Allow-Origin', '*')
 // //     res.header(
@@ -65,25 +83,6 @@ app.get('/', (req, res) => {
     res.json({
         message: "I'm working!",
     })
-})
-
-app.use((req, res, next) => {
-    // if (process.env.NODE_ENV !== 'production') {
-    //     res.setHeader('Access-Control-Allow-Origin', '*')
-    // } else {
-    //     res.setHeader('Access-Control-Allow-Origin', config.WEB_URL)
-    // }
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader(
-        'Access-Control-Allow-Methods',
-        'GET, POST, OPTIONS, PUT, PATCH, DELETE'
-    )
-    res.setHeader(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Authorization'
-    )
-    res.setHeader('Access-Control-Allow-Credentials', true)
-    next()
 })
 
 app.listen(PORT, () => {
