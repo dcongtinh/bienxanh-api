@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import morgan from 'morgan'
@@ -40,33 +41,34 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(morgan('dev'))
 app.use(boom())
 // CORS
-app.use((req, res, next) => {
-    // if (process.env.NODE_ENV !== 'production') {
-    //     res.setHeader('Access-Control-Allow-Origin', '*')
-    // } else {
-    //     res.setHeader('Access-Control-Allow-Origin', config.WEB_URL)
-    // }
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader(
-        'Access-Control-Allow-Methods',
-        'GET, POST, OPTIONS, PUT, PATCH, DELETE'
-    )
-    res.setHeader(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Authorization'
-    )
-    res.setHeader('Access-Control-Allow-Credentials', true)
-    next()
-})
 
-// app.use(function (req, res, next) {
-//     res.header('Access-Control-Allow-Origin', '*')
-//     res.header(
-//         'Access-Control-Allow-Headers',
-//         'Origin, X-Requested-With, Content-Type, Accept'
+// app.use((req, res, next) => {
+//     // if (process.env.NODE_ENV !== 'production') {
+//     //     res.setHeader('Access-Control-Allow-Origin', '*')
+//     // } else {
+//     //     res.setHeader('Access-Control-Allow-Origin', config.WEB_URL)
+//     // }
+//     res.setHeader('Access-Control-Allow-Origin', '*')
+//     res.setHeader(
+//         'Access-Control-Allow-Methods',
+//         'GET, POST, OPTIONS, PUT, PATCH, DELETE'
 //     )
+//     res.setHeader(
+//         'Access-Control-Allow-Headers',
+//         'Origin, X-Requested-With, Content-Type, Authorization'
+//     )
+//     res.setHeader('Access-Control-Allow-Credentials', true)
 //     next()
 // })
+
+// // app.use(function (req, res, next) {
+// //     res.header('Access-Control-Allow-Origin', '*')
+// //     res.header(
+// //         'Access-Control-Allow-Headers',
+// //         'Origin, X-Requested-With, Content-Type, Accept'
+// //     )
+// //     next()
+// // })
 
 // Routes
 app.use('/auth', authRoute)
@@ -83,6 +85,7 @@ app.get('/', (req, res) => {
     })
 })
 
+app.use(cors())
 app.listen(PORT, () => {
     console.log('Server is running on port ' + PORT)
 })
