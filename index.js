@@ -70,6 +70,7 @@ app.use(boom())
 // //     next()
 // // })
 
+app.use(cors())
 // Routes
 app.use('/auth', authRoute)
 app.use('/warehouses', wareHouseRoute)
@@ -85,7 +86,6 @@ app.get('/', (req, res) => {
     })
 })
 
-app.use(cors())
 app.listen(PORT, () => {
     console.log('Server is running on port ' + PORT)
 })
