@@ -18,6 +18,7 @@ import {
 } from 'routes'
 
 const app = express()
+app.set('trust proxy', 1)
 // app.use(cors())
 
 const PORT = process.env.PORT || 4000
@@ -58,7 +59,7 @@ app.use((req, res, next) => {
         'Origin, X-Requested-With, Content-Type, Authorization, Accept'
     )
     res.setHeader('Access-Control-Allow-Credentials', true)
-    res.setHeader('Content-Type', 'application/x-www-form-urlencoded')
+    // res.setHeader('Content-Type', 'application/x-www-form-urlencoded')
     next()
 })
 
@@ -82,13 +83,13 @@ app.use((req, res, next) => {
 // app.options('*', cors())
 
 // Routes
-app.use('auth', authRoute)
-app.use('warehouses', wareHouseRoute)
-app.use('units', unitRoute)
-app.use('items', itemRoute)
-app.use('orders', orderRoute)
-app.use('suppliers', supplierRoute)
-app.use('exports', exportRoute)
+app.use('/auth', authRoute)
+app.use('/warehouses', wareHouseRoute)
+app.use('/units', unitRoute)
+app.use('/items', itemRoute)
+app.use('/orders', orderRoute)
+app.use('/suppliers', supplierRoute)
+app.use('/exports', exportRoute)
 
 app.get('/', (req, res) => {
     res.json({
