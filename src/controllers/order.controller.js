@@ -101,6 +101,7 @@ export const addOrder = async (req, res) => {
         updater,
         mergeList,
         orders,
+        images,
     } = req.body
     if (!group) {
         let _order = await Order.find().sort({ group: -1 }).limit(1)
@@ -119,6 +120,7 @@ export const addOrder = async (req, res) => {
         itemNote,
         mergeList: mergeList || [],
         orders: orders || [],
+        images: images || [],
     })
 
     const newOrderSaved = await newOrder.save()

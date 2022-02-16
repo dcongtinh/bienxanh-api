@@ -6,12 +6,12 @@ const orderSchema = mongoose.Schema(
         group: Number,
         warehouse: {
             type: String,
-            ref: 'Warehouse'
+            ref: 'Warehouse',
         },
         buyerName: String,
         payStatus: {
             type: Boolean,
-            default: false
+            default: false,
         },
         orders: {
             type: [
@@ -19,80 +19,84 @@ const orderSchema = mongoose.Schema(
                     itemName: String,
                     itemLoss: {
                         type: Number,
-                        default: 0
+                        default: 0,
                     },
                     itemSupplier: String,
                     itemPrice: {
                         type: Number,
-                        default: 0
+                        default: 0,
                     },
                     itemTradePrice: {
                         type: Number,
-                        default: 0
+                        default: 0,
                     },
                     itemFeeShip: {
                         type: Number,
-                        default: 0
+                        default: 0,
                     },
                     itemFeeNorth: {
                         type: Number,
-                        default: 0
+                        default: 0,
                     },
                     itemFeeCentral: {
                         type: Number,
-                        default: 0
+                        default: 0,
                     },
                     itemFeeSouth: {
                         type: Number,
-                        default: 0
+                        default: 0,
                     },
                     itemShipper: String,
                     itemWeight: {
                         type: Number,
-                        default: 0
+                        default: 0,
                     },
                     itemTransfer: String,
                     itemQuantity: {
                         type: Number,
-                        default: 0
-                    }
-                }
+                        default: 0,
+                    },
+                },
             ],
-            default: []
+            default: [],
         },
         itemNote: String,
         taxPercentag: {
             type: [Number],
-            default: [-2]
+            default: [-2],
         },
         owner: {
             type: String,
-            ref: 'User'
+            ref: 'User',
         },
         mergeList: {
             type: [String],
-            default: []
+            default: [],
         },
         enabled: {
             type: Boolean,
-            default: true
+            default: true,
         },
         exported: {
             type: Boolean,
-            default: false
+            default: false,
         },
         date: {
             type: Date,
-            default: new Date()
+            default: new Date(),
         },
         reportExportedAt: {
             type: Date,
-            default: null
+            default: null,
         },
         updater: {
             type: String,
-            ref: 'User'
-        }
+            ref: 'User',
+        },
+        images: {
+            type: [String],
+            default: [],
+        },
     },
     { timestamps: true }
 )
