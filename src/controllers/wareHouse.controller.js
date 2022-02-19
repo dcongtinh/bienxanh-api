@@ -20,7 +20,7 @@ export const getAllWarehouses = async (req, res) => {
 }
 
 export const showAllWarehouses = async (req, res) => {
-    if (req.query.filters) console.log(req.query.filters.split(','))
+    // if (req.query.filters) console.log(req.query.filters.split(','))
     let page = parseInt(req.query.page) || 0
     let itemPerPage = parseInt(req.query.itemPerPage) || 100
     let searchText = req.query.searchText
@@ -128,7 +128,9 @@ export const updateWarehouse = async (req, res) => {
         },
         { new: true }
     )
-    if (!wareHouse) res.boom.badRequest('Không tìm thấy dữ liệu!')
+    if (!wareHouse) {
+        return res.boom.badRequest('Không tìm thấy dữ liệu!')
+    }
 
     res.json({ wareHouse })
 }
@@ -138,7 +140,9 @@ export const deleteWareHouses = async (req, res) => {
     let wareHouses = await Warehouse.deleteMany({
         _id: { $in: wareHousesListId },
     })
-    if (wareHouses) res.json({ wareHouses })
+    if (wareHouses) {
+        return res.json({ wareHouses })
+    }
     res.boom.badRequest('Xoá thất bại!')
 }
 

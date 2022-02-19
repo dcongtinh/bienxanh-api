@@ -47,7 +47,9 @@ export const updateItem = async (req, res) => {
         },
         { new: true }
     )
-    if (!item) res.boom.badRequest('Không tìm thấy dữ liệu!')
+    if (!item) {
+        return res.boom.badRequest('Không tìm thấy dữ liệu!')
+    }
 
     res.json({ item })
 }
@@ -57,7 +59,9 @@ export const deleteItems = async (req, res) => {
     let items = await Item.deleteMany({
         _id: { $in: itemsListId },
     })
-    if (items) res.json({ items })
+    if (items) {
+        return res.json({ items })
+    }
     res.boom.badRequest('Xoá thất bại!')
 }
 
@@ -66,7 +70,9 @@ export const testItems = async (req, res) => {
         {},
         { $set: { itemUnit: '6207d7681cbbe51d6019df83' } }
     ) // Unit: KG
-    if (items) res.json({ items })
+    if (items) {
+        return res.json({ items })
+    }
     res.boom.badRequest('Thất bại!')
 }
 

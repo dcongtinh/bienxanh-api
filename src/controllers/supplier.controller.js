@@ -1,18 +1,16 @@
 import Supplier from 'models/supplier.model'
 
 export const getSupplier = async (req, res) => {
-    let {
-        idSupplier
-    } = req.body
+    let { idSupplier } = req.body
     let supplier = await Supplier.findOne({
-        _id: idSupplier
+        _id: idSupplier,
     })
 
     if (!supplier) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
     }
     res.json({
-        supplier
+        supplier,
     })
 }
 
@@ -28,7 +26,7 @@ export const getAllSuppliers = async (req, res) => {
     }
     res.json({
         suppliers,
-        count
+        count,
     })
 }
 
@@ -39,7 +37,7 @@ export const addSupplier = async (req, res) => {
         supplierIdNo,
         supplierAddress,
         supplierNote,
-        supplierItems
+        supplierItems,
     } = req.body
     const newSupplier = new Supplier({
         supplierCode,
@@ -47,7 +45,7 @@ export const addSupplier = async (req, res) => {
         supplierIdNo,
         supplierAddress,
         supplierNote,
-        supplierItems
+        supplierItems,
     })
     const newSupplierSaved = await newSupplier.save()
     if (!newSupplierSaved) {
@@ -57,39 +55,41 @@ export const addSupplier = async (req, res) => {
 }
 
 export const updateSupplier = async (req, res) => {
-    let {
-        idSupplier,
-        data
-    } = req.body
+    let { idSupplier, data } = req.body
     data = Object.assign({}, data, {
-        updatedAt: new Date()
+        updatedAt: new Date(),
     })
-    const item = await Supplier.update({
-        _id: idSupplier
-    }, {
-        $set: data
-    }, {
-        new: true
-    })
-    if (!item) res.boom.badRequest('Không tìm thấy dữ liệu!')
+    const item = await Supplier.update(
+        {
+            _id: idSupplier,
+        },
+        {
+            $set: data,
+        },
+        {
+            new: true,
+        }
+    )
+    if (!item) {
+        return res.boom.badRequest('Không tìm thấy dữ liệu!')
+    }
 
     res.json({
-        item
+        item,
     })
 }
 
 export const deleteSuppliers = async (req, res) => {
-    let {
-        suppliersListId
-    } = req.body
+    let { suppliersListId } = req.body
     let suppliers = await Supplier.deleteMany({
         _id: {
-            $in: suppliersListId
-        }
+            $in: suppliersListId,
+        },
     })
-    if (suppliers) res.json({
-        suppliers
-    })
+    if (suppliers) {
+        return res.json({ suppliers })
+    }
+
     res.boom.badRequest('Xoá thất bại!')
 }
 
@@ -98,5 +98,5 @@ export default {
     getAllSuppliers,
     getSupplier,
     updateSupplier,
-    deleteSuppliers
+    deleteSuppliers,
 }

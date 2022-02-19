@@ -40,7 +40,9 @@ export const updateUnit = async (req, res) => {
         },
         { new: true }
     )
-    if (!unit) res.boom.badRequest('Không tìm thấy dữ liệu!')
+    if (!unit) {
+        return res.boom.badRequest('Không tìm thấy dữ liệu!')
+    }
 
     res.json({ unit })
 }
@@ -50,7 +52,9 @@ export const deleteUnits = async (req, res) => {
     let units = await Unit.deleteMany({
         _id: { $in: unitsListId },
     })
-    if (units) res.json({ units })
+    if (units) {
+        return res.json({ units })
+    }
     res.boom.badRequest('Xoá thất bại!')
 }
 

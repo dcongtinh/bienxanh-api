@@ -18,6 +18,7 @@ import {
 } from 'routes'
 
 const app = express()
+app.use(express.static('public'))
 
 const PORT = process.env.PORT || 4000
 

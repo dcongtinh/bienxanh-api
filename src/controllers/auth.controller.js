@@ -87,7 +87,9 @@ export const updateProfile = async (req, res) => {
         },
         { new: true }
     )
-    if (!user) res.boom.badRequest('Không tìm thấy dữ liệu!')
+    if (!user) {
+        return res.boom.badRequest('Không tìm thấy dữ liệu!')
+    }
 
     res.json(user)
 }
@@ -95,7 +97,9 @@ export const updateProfile = async (req, res) => {
 export const deleteUsers = async (req, res) => {
     let { usernames } = req.body
     let users = await User.deleteMany({ username: { $in: usernames } })
-    if (users) res.json({ users })
+    if (users) {
+        return res.json({ users })
+    }
     res.boom.badRequest('Xoá thất bại!')
 }
 export default {

@@ -2,6 +2,9 @@ import Order from 'models/order.model'
 import Export from 'models/export.model'
 import wareHouse from 'models/wareHouse.model'
 
+import fs from 'fs'
+import { v4 as uuidv4 } from 'uuid'
+
 export const getOrder = async (req, res) => {
     let { idOrder } = req.body
     let order = await Order.findOne({ _id: idOrder })
@@ -110,6 +113,10 @@ export const addOrder = async (req, res) => {
     // let WareHouse = await wareHouse.findOne({ _id: warehouse })
     // if (!WareHouse) return res.boom.badRequest('Lỗi')
 
+    // var filenames = []
+    // for (var i = 0; i < images.length; ++i) {
+    //     filenames.push(uuidv4())
+    // }
     const newOrder = new Order({
         group,
         warehouse,
@@ -120,13 +127,25 @@ export const addOrder = async (req, res) => {
         itemNote,
         mergeList: mergeList || [],
         orders: orders || [],
-        images: images || [],
+        images: [],
     })
 
     const newOrderSaved = await newOrder.save()
     if (!newOrderSaved) {
         return res.boom.badRequest('Đăng ký thất bại!')
     }
+
+    // for (var i = 0; i < images.length; ++i) {
+    //     var img = images[i].split(',')[1]
+    //     var filename = filenames[i]
+    //     var dir = `public/images/orders/${filename}.png`
+    //     fs.writeFile(dir, img, 'base64', function (err) {
+    //         if (err) {
+    //             console.log(err)
+    //         }
+    //     })
+    // }
+
     res.json(newOrderSaved)
 }
 
@@ -151,7 +170,9 @@ export const updateOrder = async (req, res) => {
         },
         { new: true }
     )
-    if (!order) res.boom.badRequest('Không tìm thấy dữ liệu!')
+    if (!order) {
+        return res.boom.badRequest('Không tìm thấy dữ liệu!')
+    }
 
     res.json({ order })
 }
@@ -169,7 +190,9 @@ export const mergeOrders = async (req, res) => {
         },
         { new: true }
     )
-    if (orders) res.json({ orders })
+    if (orders) {
+        return res.json({ orders })
+    }
     res.boom.badRequest('Hợp thất bại!')
 }
 
@@ -190,7 +213,9 @@ export const exportOrders = async (req, res) => {
         exportedList: ordersListId,
     })
     let exportedSave = await exported.save()
-    if (!orders || !exportedSave) res.boom.badRequest('Xuất hoá đơn thất bại!')
+    if (!orders || !exportedSave) {
+        return res.boom.badRequest('Xuất hoá đơn thất bại!')
+    }
     res.json({ orders, exportedSave })
 }
 
@@ -199,7 +224,9 @@ export const deleteOrders = async (req, res) => {
     let orders = await Order.deleteMany({
         _id: { $in: ordersListId },
     })
-    if (orders) res.json({ orders })
+    if (orders) {
+        return res.json({ orders })
+    }
     res.boom.badRequest('Xoá thất bại!')
 }
 
@@ -208,7 +235,9 @@ export const testOrders = async (req, res) => {
         {},
         { $set: { updater: '5d469c31ec97e10125367cb4' } }
     ) // admin: bienxanh@gmail.com
-    if (orders) res.json({ orders })
+    if (orders) {
+        return res.json({ orders })
+    }
     res.boom.badRequest('Thất bại!')
 }
 

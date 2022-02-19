@@ -58,7 +58,9 @@ export const exportReport = async (req, res) => {
         },
         { new: true }
     )
-    if (!orders) res.boom.badRequest('Xuất báo cáo thất bại!')
+    if (!orders) {
+        return res.boom.badRequest('Xuất báo cáo thất bại!')
+    }
     res.json({ orders })
 }
 
@@ -76,7 +78,9 @@ export const setExport = async (req, res) => {
         { new: true }
     )
     let exported = await Export.deleteOne({ _id: idExported })
-    if (!orders || !exported) res.boom.badRequest('Phục hồi thất bại!')
+    if (!orders || !exported) {
+        return res.boom.badRequest('Phục hồi thất bại!')
+    }
     res.json({ orders, exported })
 }
 
@@ -89,7 +93,9 @@ export const deleteExports = async (req, res) => {
     let exported = await Export.deleteMany({
         _id: { $in: exportsList },
     })
-    if (!orders || !exported) res.boom.badRequest('Xoá thất bại!')
+    if (!orders || !exported) {
+        return res.boom.badRequest('Xoá thất bại!')
+    }
     res.json({ exported })
 }
 
