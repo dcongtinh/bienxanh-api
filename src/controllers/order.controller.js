@@ -21,6 +21,10 @@ export const getOrder = async (req, res) => {
             path: 'updater',
             select: 'firstname lastname',
         })
+        .populate({
+            path: 'updater2',
+            select: 'firstname lastname',
+        })
 
     if (!order) {
         return res.boom.badRequest('Không tìm thấy dữ liệu!')
@@ -85,6 +89,10 @@ export const getAllOrders = async (req, res) => {
             path: 'updater',
             select: 'firstname lastname',
         })
+        .populate({
+            path: 'updater2',
+            select: 'firstname lastname',
+        })
 
     let group = await Order.find().sort({ group: -1 }).limit(1)
     if (!orders) {
@@ -123,6 +131,7 @@ export const addOrder = async (req, res) => {
         buyerName,
         owner,
         updater,
+        updater2: updater,
         date,
         itemNote,
         mergeList: mergeList || [],
@@ -161,7 +170,12 @@ export const addOrders = async (req, res) => {
 
 export const updateOrder = async (req, res) => {
     let { idOrder, data } = req.body
-    data = Object.assign({}, data, { updatedAt: new Date() })
+    let prevOrder = await Order.findOne({ _id: idOrder })
+    data = Object.assign({}, data, {
+        updatedAt: new Date(),
+        updater2: prevOrder.updater,
+        updatedAt2: prevOrder.updatedAt,
+    })
 
     const order = await Order.updateOne(
         { _id: idOrder },

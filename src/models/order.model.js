@@ -93,6 +93,11 @@ const orderSchema = mongoose.Schema(
             type: String,
             ref: 'User',
         },
+        updater2: {
+            type: String,
+            ref: 'User',
+        },
+        updatedAt2: Date,
         images: {
             type: [String],
             default: [],
