@@ -131,7 +131,6 @@ export const addOrder = async (req, res) => {
         buyerName,
         owner,
         updater,
-        updater2: updater,
         date,
         itemNote,
         mergeList: mergeList || [],
