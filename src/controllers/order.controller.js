@@ -82,15 +82,7 @@ export const getAllOrders = async (req, res) => {
             select: 'itemNameCode itemName',
         })
         .populate({
-            path: 'owner',
-            select: 'firstname lastname',
-        })
-        .populate({
-            path: 'updater',
-            select: 'firstname lastname',
-        })
-        .populate({
-            path: 'updater2',
+            path: 'owner updater updater2',
             select: 'firstname lastname',
         })
 

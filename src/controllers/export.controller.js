@@ -34,7 +34,7 @@ export const getExport = async (req, res) => {
     let exported = await Export.findOne({ _id: idExported }).populate({
         path: 'exportedList',
         populate: {
-            path: 'updater',
+            path: 'updater updater2',
             select: 'firstname lastname',
         },
         options: { sort: { group: -1 } },
